@@ -1,0 +1,2 @@
+pnpm lint-staged --verbose
+pnpm test
