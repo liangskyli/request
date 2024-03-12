@@ -77,8 +77,8 @@ describe('loadingMiddleware file', () => {
     hideLoadingMock.mockClear();
     nextMock.mockClear();
 
-    try {
-      await loadingMiddlewareObj2(
+    await expect(
+      loadingMiddlewareObj2(
         {
           config: {
             customOptions: {
@@ -90,10 +90,8 @@ describe('loadingMiddleware file', () => {
         () => {
           return Promise.reject('error');
         },
-      );
-    } catch (e) {
-      expect(e).toBe('error');
-    }
+      ),
+    ).rejects.toEqual('error');
     vi.advanceTimersByTime(100);
     expect(showLoadingMock).toBeCalledTimes(1);
     expect(hideLoadingMock).toBeCalledTimes(1);

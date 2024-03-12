@@ -78,8 +78,8 @@ describe('showErrorMiddleware file', () => {
       handleError: handleErrorMock,
       showError: showErrorMock,
     });
-    try {
-      await showErrorMiddlewareObj(
+    await expect(
+      showErrorMiddlewareObj(
         {
           config: {},
           success: false,
@@ -87,10 +87,8 @@ describe('showErrorMiddleware file', () => {
         () => {
           return Promise.reject('error');
         },
-      );
-    } catch (e) {
-      expect(e).toBe('error');
-    }
+      ),
+    ).rejects.toBe('error');
     expect(handleErrorMock).toBeCalledTimes(1);
     expect(showErrorMock).toBeCalledTimes(1);
   });

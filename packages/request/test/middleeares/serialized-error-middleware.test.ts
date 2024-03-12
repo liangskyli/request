@@ -88,8 +88,8 @@ describe('serializedErrorMiddleware file', () => {
       checkIsCancel: checkIsCancelMock,
       getErrorResponse: getErrorResponseMock,
     });
-    try {
-      await serializedErrorMiddlewareObj(
+    await expect(
+      serializedErrorMiddlewareObj(
         {
           config: {},
           success: false,
@@ -98,14 +98,12 @@ describe('serializedErrorMiddleware file', () => {
         () => {
           return Promise.reject('error');
         },
-      );
-    } catch (e) {
-      expect(e).toMatchObject({
-        _isSerializedError: true,
-        retCode: '',
-        retMsg: '未知错误，请稍后再试',
-      });
-    }
+      ),
+    ).rejects.toMatchObject({
+      _isSerializedError: true,
+      retCode: '',
+      retMsg: '未知错误，请稍后再试',
+    });
     expect(checkIsCancelMock).toBeCalledTimes(1);
     expect(getErrorResponseMock).toBeCalledTimes(1);
   });
