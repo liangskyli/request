@@ -22,13 +22,7 @@ export const composeMiddleware = <T>(
     }
   }
   return function (context, next) {
-    // last called middleware #
-    let index = -1;
     const dispatch: (i: number) => Promise<any> = (i) => {
-      if (i <= index) {
-        return Promise.reject(new Error('next() called multiple times'));
-      }
-      index = i;
       let fn: Middleware<T> | Next | undefined = middleware[i];
       if (i === middleware.length) {
         fn = next;
