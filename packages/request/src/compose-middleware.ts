@@ -1,6 +1,6 @@
 export type Next = () => Promise<any>;
 
-export type Middleware<T> = (context: T, next: Next) => any;
+export type Middleware<T> = (context: T, next: Next) => Promise<any>;
 
 export type ComposedMiddleware<T> = (context: T, next?: Next) => Promise<any>;
 

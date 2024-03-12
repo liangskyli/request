@@ -19,7 +19,7 @@ export type ShowErrorOption = {
 };
 export function showErrorMiddleware(
   option: ShowErrorConfig,
-): Middleware<Context> {
+): Middleware<Context<ShowErrorOption>> {
   const { showError, handleError, enable = true } = option;
   return async (ctx, next) => {
     const {

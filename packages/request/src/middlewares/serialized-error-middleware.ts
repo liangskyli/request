@@ -1,11 +1,10 @@
 import type { Middleware } from '../compose-middleware';
 import type { Context } from '../context';
 
-export function getPropertyValueToString(
-  data: any,
-  key: string | string[],
+export function getFirstPropertyValueToString(
+  data: Record<string, any>,
+  keys: string[],
 ): string {
-  const keys = typeof key === 'string' ? [key] : key;
   const values = keys.map((key) => data?.[key]);
   let result = [...values, ''].find((v) => typeof v !== 'undefined');
   result = `${result}`;
@@ -33,7 +32,7 @@ export type SerializedErrorConfig<
   /** response message key，default: ['retMsg', 'message', 'statusText']*/
   responseMessageKey?: string[];
   checkIsCancel: (error: any) => boolean;
-  getErrorResponse: (error: any) => any;
+  getErrorResponse: (error: any) => Record<string, any>;
   /** message conversion */
   messageMap?: Record<string, string>;
   /** default return message info, default: 未知错误，请稍后再试 */
@@ -74,8 +73,8 @@ export const serializedError = <
   };
 
   const response = getErrorResponse(error);
-  res[retCodeKey] = getPropertyValueToString(response, responseCodeKey);
-  res[retMsgKey] = getPropertyValueToString(response, responseMessageKey);
+  res[retCodeKey] = getFirstPropertyValueToString(response, responseCodeKey);
+  res[retMsgKey] = getFirstPropertyValueToString(response, responseMessageKey);
 
   const msgMap: Record<string, string> = {
     ['Network Error']: '网络错误，请检查网络配置',
@@ -99,6 +98,7 @@ export const serializedErrorMiddleware = <
       if (!ctx.success) {
         ctx.error = serializedError<CodeKey, MessageKey>(ctx.error, option);
       }
+      return ctx;
     } catch (error) {
       throw serializedError<CodeKey, MessageKey>(error, option);
     }

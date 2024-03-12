@@ -25,5 +25,6 @@ export const serializedResponseMiddleware = (
         ctx.error = data ?? ctx.response;
       }
     }
+    return ctx;
   };
 };
