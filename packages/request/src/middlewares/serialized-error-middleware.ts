@@ -10,10 +10,7 @@ export function getFirstPropertyValueToString(
   result = `${result}`;
   return result;
 }
-export type SerializedError<
-  CodeKey extends string,
-  MessageKey extends string,
-> = {
+type SerializedError<CodeKey extends string, MessageKey extends string> = {
   readonly _isSerializedError: boolean;
   aborted?: boolean;
   _reason: any;
@@ -38,7 +35,7 @@ export type SerializedErrorConfig<
   /** default return message info, default: 未知错误，请稍后再试 */
   defaultReturnMessageInfo?: string;
 };
-export const serializedError = <
+const serializedError = <
   CodeKey extends string = 'retCode',
   MessageKey extends string = 'retMsg',
 >(

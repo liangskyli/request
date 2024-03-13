@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, test, vi } from 'vitest';
-import { serializedError, serializedErrorMiddleware } from '../../src';
+import { serializedErrorMiddleware } from '../../src';
 
 describe('serializedErrorMiddleware file', () => {
   afterEach(() => {
@@ -48,6 +48,36 @@ describe('serializedErrorMiddleware file', () => {
     });
     expect(checkIsCancelMock).toBeCalledTimes(1);
     expect(getErrorResponseMock).toBeCalledTimes(1);
+    expect(nextMock).toBeCalledTimes(1);
+  });
+  test('serializedErrorMiddleware, success: false,_isSerializedError:true', async () => {
+    const checkIsCancelMock = vi.fn();
+    const getErrorResponseMock = vi.fn();
+    const nextMock = vi.fn();
+    const serializedErrorMiddlewareObj = serializedErrorMiddleware({
+      checkIsCancel: checkIsCancelMock,
+      getErrorResponse: getErrorResponseMock,
+    });
+    await serializedErrorMiddlewareObj(
+      {
+        config: {},
+        success: false,
+        error: {
+          _isSerializedError: true,
+          retCode: 'retCodeValue',
+          retMsg: 'retMsgValue',
+        },
+      },
+      nextMock,
+    ).then((ctx) => {
+      expect(ctx.error).toMatchObject({
+        _isSerializedError: true,
+        retCode: 'retCodeValue',
+        retMsg: 'retMsgValue',
+      });
+    });
+    expect(checkIsCancelMock).toBeCalledTimes(0);
+    expect(getErrorResponseMock).toBeCalledTimes(0);
     expect(nextMock).toBeCalledTimes(1);
   });
   test('serializedErrorMiddleware, success: false, custom error', async () => {
@@ -106,20 +136,5 @@ describe('serializedErrorMiddleware file', () => {
     });
     expect(checkIsCancelMock).toBeCalledTimes(1);
     expect(getErrorResponseMock).toBeCalledTimes(1);
-  });
-  test('serializedError, _isSerializedError: true', async () => {
-    const checkIsCancelMock = vi.fn();
-    const getErrorResponseMock = vi.fn();
-    const serializedErrorObj = {
-      _isSerializedError: true,
-      retCode: 'retCodeValue',
-      retMsg: 'retMsgValue',
-    };
-    expect(
-      serializedError(serializedErrorObj, {
-        checkIsCancel: checkIsCancelMock,
-        getErrorResponse: getErrorResponseMock,
-      }),
-    ).toEqual(serializedErrorObj);
   });
 });
