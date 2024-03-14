@@ -32,19 +32,23 @@ describe('serializedErrorMiddleware file', () => {
       checkIsCancel: checkIsCancelMock,
       getErrorResponse: getErrorResponseMock,
     });
-    await serializedErrorMiddlewareObj(
-      {
-        config: {},
-        success: false,
-        error: {},
-      },
-      nextMock,
-    ).then((ctx) => {
-      expect(ctx.error).toMatchObject({
+    await expect(
+      serializedErrorMiddlewareObj(
+        {
+          config: {},
+          success: false,
+          error: {},
+        },
+        nextMock,
+      ),
+    ).resolves.toMatchObject({
+      config: {},
+      success: false,
+      error: {
         _isSerializedError: true,
         retCode: '',
         retMsg: '未知错误，请稍后再试',
-      });
+      },
     });
     expect(checkIsCancelMock).toBeCalledTimes(1);
     expect(getErrorResponseMock).toBeCalledTimes(1);
@@ -58,23 +62,27 @@ describe('serializedErrorMiddleware file', () => {
       checkIsCancel: checkIsCancelMock,
       getErrorResponse: getErrorResponseMock,
     });
-    await serializedErrorMiddlewareObj(
-      {
-        config: {},
-        success: false,
-        error: {
-          _isSerializedError: true,
-          retCode: 'retCodeValue',
-          retMsg: 'retMsgValue',
+    await expect(
+      serializedErrorMiddlewareObj(
+        {
+          config: {},
+          success: false,
+          error: {
+            _isSerializedError: true,
+            retCode: 'retCodeValue',
+            retMsg: 'retMsgValue',
+          },
         },
-      },
-      nextMock,
-    ).then((ctx) => {
-      expect(ctx.error).toMatchObject({
+        nextMock,
+      ),
+    ).resolves.toMatchObject({
+      config: {},
+      success: false,
+      error: {
         _isSerializedError: true,
         retCode: 'retCodeValue',
         retMsg: 'retMsgValue',
-      });
+      },
     });
     expect(checkIsCancelMock).toBeCalledTimes(0);
     expect(getErrorResponseMock).toBeCalledTimes(0);
@@ -91,22 +99,26 @@ describe('serializedErrorMiddleware file', () => {
       responseCodeKey: ['responseCodeKey', 'code', 'status'],
       responseMessageKey: ['responseMessageKey', 'message', 'statusText'],
     });
-    await serializedErrorMiddlewareObj(
-      {
-        config: {},
-        success: false,
-        error: {
-          responseCodeKey: 'responseCodeKeyValue',
-          responseMessageKey: 'responseMessageKeyValue',
+    await expect(
+      serializedErrorMiddlewareObj(
+        {
+          config: {},
+          success: false,
+          error: {
+            responseCodeKey: 'responseCodeKeyValue',
+            responseMessageKey: 'responseMessageKeyValue',
+          },
         },
-      },
-      nextMock,
-    ).then((ctx) => {
-      expect(ctx.error).toMatchObject({
+        nextMock,
+      ),
+    ).resolves.toMatchObject({
+      config: {},
+      success: false,
+      error: {
         _isSerializedError: true,
         customRetCode: 'responseCodeKeyValue',
         customRetMsg: 'responseMessageKeyValue',
-      });
+      },
     });
     expect(checkIsCancelMock).toBeCalledTimes(1);
     expect(nextMock).toBeCalledTimes(1);

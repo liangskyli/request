@@ -13,7 +13,6 @@ export const serializedResponseMiddleware = (
   const codeKey = option.serializedResponseCodeKey ?? 'retCode';
   const code = option.serializedResponseSuccessCode ?? '0';
   return async (ctx, next) => {
-    await next();
     if (ctx.success) {
       const { data } = ctx.response || {};
       const value = data?.[codeKey];
@@ -25,6 +24,7 @@ export const serializedResponseMiddleware = (
         ctx.error = data ?? ctx.response;
       }
     }
+    await next();
     return ctx;
   };
 };

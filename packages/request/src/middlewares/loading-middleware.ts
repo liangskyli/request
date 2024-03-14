@@ -4,8 +4,8 @@ import type { Context } from '../context';
 export type LoadingConfig = {
   /** is global loading enabled, default: true */
   enable?: boolean;
-  showLoading: () => void;
-  hideLoading: () => void;
+  showLoading?: () => void;
+  hideLoading?: () => void;
   /** is hide loading in next tick(for optimizing continuous loading display) */
   hideLoadingNextTick?: boolean;
 };
@@ -18,7 +18,7 @@ export type LoadingOption = {
 let requestCount: number = 0;
 let delayTimer: NodeJS.Timeout | number | undefined = undefined;
 export const loadingMiddleware = (
-  option: LoadingConfig,
+  option: LoadingConfig = {},
 ): Middleware<Context<LoadingOption>> => {
   const {
     showLoading,
@@ -29,7 +29,7 @@ export const loadingMiddleware = (
   const nextTickShowLoading = () => {
     function realShowLoading() {
       if (requestCount === 0) {
-        showLoading();
+        showLoading?.();
       }
     }
 
@@ -47,7 +47,7 @@ export const loadingMiddleware = (
     requestCount = Math.max(requestCount, 0);
     function realHideLoading() {
       if (requestCount === 0) {
-        hideLoading();
+        hideLoading?.();
       }
     }
 

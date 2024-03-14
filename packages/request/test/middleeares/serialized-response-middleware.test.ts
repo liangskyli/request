@@ -8,33 +8,33 @@ describe('serializedResponseMiddleware file', () => {
   test('serializedResponseMiddleware, default config', async () => {
     const nextMock = vi.fn();
     const serializedResponseMiddlewareObj = serializedResponseMiddleware();
-    await serializedResponseMiddlewareObj(
-      { config: {}, success: false },
-      nextMock,
-    );
+    await expect(
+      serializedResponseMiddlewareObj({ config: {}, success: false }, nextMock),
+    ).resolves.toEqual({
+      success: false,
+      config: {},
+    });
     expect(nextMock).toBeCalledTimes(1);
 
-    await serializedResponseMiddlewareObj(
-      { config: {}, success: true, response: { data: { retCode: 0 } } },
-      nextMock,
-    ).then((ctx) => {
-      expect(ctx).toMatchObject({
-        success: true,
-        response: {
-          retCode: 0,
-        },
-      });
+    await expect(
+      serializedResponseMiddlewareObj(
+        { config: {}, success: true, response: { data: { retCode: 0 } } },
+        nextMock,
+      ),
+    ).resolves.toEqual({
+      config: {},
+      success: true,
+      response: {
+        retCode: 0,
+      },
     });
 
     // no response
-    await serializedResponseMiddlewareObj(
-      { config: {}, success: true },
-      nextMock,
-    ).then((ctx) => {
-      expect(ctx).toMatchObject({
-        success: false,
-        error: undefined,
-      });
+    await expect(
+      serializedResponseMiddlewareObj({ config: {}, success: true }, nextMock),
+    ).resolves.toEqual({
+      config: {},
+      success: false,
     });
   });
   test('serializedResponseMiddleware, custom config', async () => {
@@ -43,22 +43,31 @@ describe('serializedResponseMiddleware file', () => {
       serializedResponseCodeKey: 'code',
       serializedResponseSuccessCode: '1',
     });
-    await serializedResponseMiddlewareObj(
-      { config: {}, success: false },
-      nextMock,
-    );
+    await expect(
+      serializedResponseMiddlewareObj(
+        { config: {}, success: false, response: { error: 'error' } },
+        nextMock,
+      ),
+    ).resolves.toEqual({
+      config: {},
+      success: false,
+      response: {
+        error: 'error',
+      },
+    });
     expect(nextMock).toBeCalledTimes(1);
 
-    await serializedResponseMiddlewareObj(
-      { config: {}, success: true, response: { data: { code: 1 } } },
-      nextMock,
-    ).then((ctx) => {
-      expect(ctx).toMatchObject({
-        success: true,
-        response: {
-          code: 1,
-        },
-      });
+    await expect(
+      serializedResponseMiddlewareObj(
+        { config: {}, success: true, response: { data: { code: 1 } } },
+        nextMock,
+      ),
+    ).resolves.toEqual({
+      config: {},
+      success: true,
+      response: {
+        code: 1,
+      },
     });
   });
 });
