@@ -40,16 +40,19 @@
     "update:deps": "pnpm update --interactive --latest"
   },
   "dependencies": {
-    "@liangskyli/request": "workspace:*",
+    "@liangskyli/request": "workspace:*"
+  },
+  "devDependencies": {
+    "axios-mock-adapter": "^1.22.0",
     "axios": "^1.6.7"
+  },
+  "peerDependencies": {
+    "axios": ">=0.24.0"
   },
   "engines": {
     "node": ">=16.8.0"
   },
   "bugs": {
     "url": "https://github.com/liangskyli/request/issues"
-  },
-  "devDependencies": {
-    "axios-mock-adapter": "^1.22.0"
   }
 }
