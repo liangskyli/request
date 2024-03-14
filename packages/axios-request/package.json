@@ -48,5 +48,8 @@
   },
   "bugs": {
     "url": "https://github.com/liangskyli/request/issues"
+  },
+  "devDependencies": {
+    "axios-mock-adapter": "^1.22.0"
   }
 }
