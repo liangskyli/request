@@ -1,0 +1,57 @@
+{
+  "name": "@liangskyli/taro-request",
+  "version": "0.0.1",
+  "description": "taro request library applied to mini programs",
+  "author": "liangsky <640634387@qq.com>",
+  "homepage": "https://github.com/liangskyli/request#readme",
+  "license": "MIT",
+  "keywords": [
+    "taro",
+    "mini programs request library"
+  ],
+  "type": "module",
+  "main": "./lib/index.cjs",
+  "module": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "typings": "./lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "import": "./lib/index.js",
+      "require": "./lib/index.cjs"
+    }
+  },
+  "files": [
+    "lib",
+    "CHANGELOG.md",
+    "LICENSE",
+    "README.md",
+    "package.json"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/liangskyli/request.git"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "test-u": "vitest -u run",
+    "coverage": "vitest run --coverage",
+    "build": "rollup --config=./rollup.config.js",
+    "update:deps": "pnpm update --interactive --latest"
+  },
+  "dependencies": {
+    "@liangskyli/request": "workspace:*"
+  },
+  "devDependencies": {
+    "@tarojs/taro": "^3.6.24"
+  },
+  "peerDependencies": {
+    "@tarojs/taro": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=16.8.0"
+  },
+  "bugs": {
+    "url": "https://github.com/liangskyli/request/issues"
+  }
+}
