@@ -20,14 +20,19 @@ describe('axiosRequest file', () => {
       },
     });
     const mock = new MockAdapter(request as any);
-    mock.onGet('/test').reply(200, { retCode: 0, data: 'get success' });
-    mock.onGet('/test-err1').reply(200, { retCode: 10, retMsg: 'retMsg' });
+    mock.onGet('/test').reply(200, { retCode: '0', data: 'get success' });
+    mock.onGet('/test-string').reply(200, 'get string success');
+    mock.onGet('/test-err1').reply(200, { retCode: '10', retMsg: 'retMsg' });
     mock.onGet('/test-err2').reply(404);
     mock.onGet('/test-err3').networkError();
 
     await expect(request({ url: '/test' })).resolves.toMatchObject({
-      retCode: 0,
+      retCode: '0',
       data: 'get success',
+    });
+    await expect(request({ url: '/test-string' })).resolves.toMatchObject({
+      retCode: '0',
+      data: 'get string success',
     });
     await expect(request({ url: '/test-err1' })).rejects.toMatchObject({
       retCode: '10',
@@ -38,7 +43,6 @@ describe('axiosRequest file', () => {
       retMsg: '未知错误，请稍后再试',
     });
     await expect(request({ url: '/test-err3' })).rejects.toMatchObject({
-      retCode: '',
       retMsg: '网络错误，请检查网络配置',
     });
   });
@@ -54,7 +58,7 @@ describe('axiosRequest file', () => {
       },
       serializedResponseMiddlewareConfig: {
         serializedResponseCodeKey: 'code',
-        serializedResponseSuccessCode: '0',
+        serializedResponseSuccessCode: 0,
       },
       axiosSerializedErrorMiddlewareConfig: {
         serializedErrorCodeKey: 'code',

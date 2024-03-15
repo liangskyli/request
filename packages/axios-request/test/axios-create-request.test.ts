@@ -9,7 +9,7 @@ describe('axiosCreateRequest file', () => {
   test('axiosCreateRequest', async () => {
     const request = axiosCreateRequest();
     const mock = new MockAdapter(request as any);
-    mock.onGet('/base/test').reply(200, 'get base success');
+    mock.onGet('/base/test').reply(200, { data: 'get base success' });
     mock.onGet('/test').reply(200, 'get success');
     mock.onPost('/base/test').reply(200, 'post base success');
     mock.onPost('/test').reply(200, 'post success');
@@ -23,7 +23,7 @@ describe('axiosCreateRequest file', () => {
         method: 'get',
       },
       status: 200,
-      data: 'get base success',
+      data: { data: 'get base success' },
     });
     await expect(
       request.request({ url: '/test', params: { a: 1 }, method: 'get' }),

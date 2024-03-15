@@ -1,12 +1,15 @@
 import type { Middleware } from '../compose-middleware';
 import type { Context } from '../context';
 
-export function getFirstPropertyValueToString(
+export function getFirstPropertyValue(
   data: Record<string, any>,
   keys: string[],
+  isToString: boolean = false,
 ): string {
   const values = keys.map((key) => data?.[key]);
-  let result = [...values, ''].find((v) => typeof v !== 'undefined');
+  let result = [...values, isToString ? '' : undefined].find(
+    (v) => typeof v !== 'undefined',
+  );
   result = `${result}`;
   return result;
 }
@@ -14,7 +17,7 @@ type SerializedError<CodeKey extends string, MessageKey extends string> = {
   readonly _isSerializedError: boolean;
   aborted?: boolean;
   _reason: any;
-} & Record<CodeKey, string> &
+} & Record<CodeKey, string | number> &
   Record<MessageKey, string>;
 export type SerializedErrorConfig<
   CodeKey extends string,
@@ -70,8 +73,8 @@ const serializedError = <
   };
 
   const response = getErrorResponse(error);
-  res[retCodeKey] = getFirstPropertyValueToString(response, responseCodeKey);
-  res[retMsgKey] = getFirstPropertyValueToString(response, responseMessageKey);
+  res[retCodeKey] = getFirstPropertyValue(response, responseCodeKey);
+  res[retMsgKey] = getFirstPropertyValue(response, responseMessageKey, true);
 
   const msgMap: Record<string, string> = {
     ['Network Error']: '网络错误，请检查网络配置',

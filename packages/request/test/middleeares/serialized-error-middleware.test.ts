@@ -46,7 +46,6 @@ describe('serializedErrorMiddleware file', () => {
       success: false,
       error: {
         _isSerializedError: true,
-        retCode: '',
         retMsg: '未知错误，请稍后再试',
       },
     });
@@ -143,7 +142,6 @@ describe('serializedErrorMiddleware file', () => {
       ),
     ).rejects.toMatchObject({
       _isSerializedError: true,
-      retCode: '',
       retMsg: '未知错误，请稍后再试',
     });
     expect(checkIsCancelMock).toBeCalledTimes(1);

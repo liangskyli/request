@@ -18,14 +18,14 @@ describe('serializedResponseMiddleware file', () => {
 
     await expect(
       serializedResponseMiddlewareObj(
-        { config: {}, success: true, response: { data: { retCode: 0 } } },
+        { config: {}, success: true, response: { data: { retCode: '0' } } },
         nextMock,
       ),
     ).resolves.toEqual({
       config: {},
       success: true,
       response: {
-        retCode: 0,
+        retCode: '0',
       },
     });
 
@@ -41,7 +41,7 @@ describe('serializedResponseMiddleware file', () => {
     const nextMock = vi.fn();
     const serializedResponseMiddlewareObj = serializedResponseMiddleware({
       serializedResponseCodeKey: 'code',
-      serializedResponseSuccessCode: '1',
+      serializedResponseSuccessCode: 0,
     });
     await expect(
       serializedResponseMiddlewareObj(
@@ -59,14 +59,29 @@ describe('serializedResponseMiddleware file', () => {
 
     await expect(
       serializedResponseMiddlewareObj(
-        { config: {}, success: true, response: { data: { code: 1 } } },
+        { config: {}, success: true, response: { data: { code: 0 } } },
         nextMock,
       ),
     ).resolves.toEqual({
       config: {},
       success: true,
       response: {
-        code: 1,
+        code: 0,
+      },
+    });
+
+    // string data to obj
+    await expect(
+      serializedResponseMiddlewareObj(
+        { config: {}, success: true, response: { data: 'string data' } },
+        nextMock,
+      ),
+    ).resolves.toEqual({
+      config: {},
+      success: true,
+      response: {
+        code: 0,
+        data: 'string data',
       },
     });
   });
