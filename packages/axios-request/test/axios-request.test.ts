@@ -30,7 +30,14 @@ describe('axiosRequest file', () => {
       retCode: '0',
       data: 'get success',
     });
-    await expect(request({ url: '/test-string' })).resolves.toMatchObject({
+    await expect(
+      request({
+        url: '/test-string',
+        headers: {
+          'Content-Type': 'text/html',
+        },
+      }),
+    ).resolves.toMatchObject({
       retCode: '0',
       data: 'get string success',
     });
