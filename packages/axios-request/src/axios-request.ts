@@ -35,7 +35,11 @@ type IAxiosRequestOpts = {
   /** showErrorMiddleware priority, default: -99 */
   showErrorMiddlewarePriority?: Required<IPriority>['priority'];
 };
-export const axiosRequest = (opts: IAxiosRequestOpts) => {
+export const axiosRequest = <
+  T extends Record<string, any> = Record<string, any>,
+>(
+  opts: IAxiosRequestOpts,
+) => {
   const {
     initConfig,
     loadingMiddlewareConfig,
@@ -47,7 +51,7 @@ export const axiosRequest = (opts: IAxiosRequestOpts) => {
     axiosSerializedErrorMiddlewarePriority,
     serializedResponseMiddlewarePriority,
   } = opts;
-  const request = axiosCreateRequest<IRequestConfig>(initConfig);
+  const request = axiosCreateRequest<IRequestConfig, T>(initConfig);
 
   // request middlewares
   request.middlewares.request.use(loadingMiddleware(loadingMiddlewareConfig), {
