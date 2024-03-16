@@ -19,7 +19,7 @@ type BaseTaroRequestConfig = Taro.request.Option;
 export type IRequestConfig = BaseTaroRequestConfig &
   LoadingOption &
   ShowErrorOption;
-type IAxiosRequestOpts = {
+type ITaroRequestOpts = {
   initConfig?: IRequestConfig;
   loadingMiddlewareConfig?: LoadingConfig;
   /** loadingMiddleware priority, default: -100 */
@@ -27,29 +27,29 @@ type IAxiosRequestOpts = {
   serializedResponseMiddlewareConfig?: SerializedResponseConfig;
   /** serializedResponseMiddleware priority, default: -100 */
   serializedResponseMiddlewarePriority?: Required<IPriority>['priority'];
-  axiosSerializedErrorMiddlewareConfig?: Parameters<
+  taroSerializedErrorMiddlewareConfig?: Parameters<
     typeof taroSerializedErrorMiddleware
   >[0];
   /** taroSerializedErrorMiddleware priority, default: 100 */
-  axiosSerializedErrorMiddlewarePriority?: Required<IPriority>['priority'];
+  taroSerializedErrorMiddlewarePriority?: Required<IPriority>['priority'];
   ShowErrorMiddlewareConfig: ShowErrorConfig;
   /** showErrorMiddleware priority, default: -99 */
   showErrorMiddlewarePriority?: Required<IPriority>['priority'];
 };
-export const axiosRequest = <
+export const taroRequest = <
   T extends Record<string, any> = Record<string, any>,
 >(
-  opts: IAxiosRequestOpts,
+  opts: ITaroRequestOpts,
 ) => {
   const {
     initConfig,
     loadingMiddlewareConfig,
     serializedResponseMiddlewareConfig = {},
-    axiosSerializedErrorMiddlewareConfig = {},
+    taroSerializedErrorMiddlewareConfig = {},
     ShowErrorMiddlewareConfig,
     loadingMiddlewarePriority,
     showErrorMiddlewarePriority,
-    axiosSerializedErrorMiddlewarePriority,
+    taroSerializedErrorMiddlewarePriority,
     serializedResponseMiddlewarePriority,
   } = opts;
   const request = taroCreateRequest<IRequestConfig, T>(initConfig);
@@ -63,8 +63,8 @@ export const axiosRequest = <
     { priority: showErrorMiddlewarePriority ?? -99 },
   );
   request.middlewares.request.use(
-    taroSerializedErrorMiddleware(axiosSerializedErrorMiddlewareConfig),
-    { priority: axiosSerializedErrorMiddlewarePriority ?? 100 },
+    taroSerializedErrorMiddleware(taroSerializedErrorMiddlewareConfig),
+    { priority: taroSerializedErrorMiddlewarePriority ?? 100 },
   );
 
   // response middlewares

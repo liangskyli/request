@@ -1,7 +1,7 @@
 import type { SerializedErrorConfig } from '@liangskyli/request';
 import { serializedErrorMiddleware } from '@liangskyli/request';
 
-export type AxiosSerializedErrorConfig<
+export type TaroSerializedErrorConfig<
   CodeKey extends string,
   MessageKey extends string,
 > = Omit<
@@ -13,7 +13,7 @@ export function taroSerializedErrorMiddleware<
   CodeKey extends string,
   MessageKey extends string,
 >(
-  option: AxiosSerializedErrorConfig<CodeKey, MessageKey>,
+  option: TaroSerializedErrorConfig<CodeKey, MessageKey>,
 ): ReturnType<typeof serializedErrorMiddleware> {
   return serializedErrorMiddleware({
     ...option,
