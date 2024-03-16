@@ -1,11 +1,12 @@
-# 通用请求库
+# 通用请求库@liangskyli/request
 
-> 基于@liangskyli/request封装多端请求库，支持中间件插件。
+> 基于@liangskyli/request库可以二次封装多端请求库，支持中间件插件。
 
 - 支持多端请求库的二次封装
   - http client
   - nodes
   - 小程序
+- 请求库的二次封装示例可看[@liangskyli/axios-request](https://github.com/liangskyli/request/packages/axios-request/README.md)
 
 ## 安装:
 ```bash
@@ -14,7 +15,7 @@ pnpm add @liangskyli/request
 
 ## 使用
 
-### createRequest
+### createRequest函数
 - 对第三方请求库的二次封装，如axios
 
 ```ts
@@ -30,6 +31,15 @@ export const axiosCreateRequest = <
 >(
   initConfig?: Partial<IC>,
 ) => createRequest<IF, IC, IR>(request, initConfig);
+```
+
+- createRequest返回值可以设置请求和响应中间件
+```ts
+import { createRequest } from '@liangskyli/request';
+
+const createRequestObj = createRequest(request, initConfig);
+createRequestObj.middlewares.request.use(中间件函数);
+createRequestObj.middlewares.response.use(中间件函数);
 ```
 
 ### 通用中间件
@@ -99,7 +109,6 @@ export const axiosCreateRequest = <
 | serializedResponseSuccessCode | 成功响应数据code值                            | `string  | number`   | `'0'` |
 | serializedResponseDataKey     | 成功响应数据存放的对象key名，用于响应数据为string时，自动转对象数据 | `string` | `data`    |
 
-
 #### 3、序列化错误中间件
 - serializedErrorMiddleware 函数类型
 
@@ -166,3 +175,24 @@ export const axiosCreateRequest = <
 
 - ShowErrorOption 属性
   - 中间件回调函数里的参数，可以用于指定接口设置显示错误中间件是否启用(customOptions.showErrorEnabled)
+
+| 属性            | 说明         | 类型       | 默认值         |
+|---------------|------------|----------|-------------|
+| customOptions | 自定义中间件配置参数 | `object` | `undefined` |
+
+- LoadingOption.customOptions 属性
+
+| 属性               | 说明                          | 类型                                 | 默认值                      |
+|------------------|-----------------------------|------------------------------------|--------------------------|
+| showErrorEnabled | 具体接口请求是否开启                  | `boolean`                          | `继承option.enable的默认值`    |
+| showError        | 具体接口请求显示错误函数，可替换全局showError | `(err: any, ctx: Context) => void` | `继承option.showError的默认值` |
+
+
+### composeMiddleware函数
+- 合并中间件,多个中间件合并
+- 类型
+```ts
+<T>(
+  middleware: Array<Middleware<T>>,
+) => ComposedMiddleware<T>
+```
