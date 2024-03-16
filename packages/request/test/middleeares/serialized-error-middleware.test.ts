@@ -52,6 +52,30 @@ describe('serializedErrorMiddleware file', () => {
     expect(checkIsCancelMock).toBeCalledTimes(1);
     expect(getErrorResponseMock).toBeCalledTimes(1);
     expect(nextMock).toBeCalledTimes(1);
+
+    const serializedErrorMiddlewareObj2 = serializedErrorMiddleware({
+      checkIsCancel: checkIsCancelMock,
+      getErrorResponse: (err) => err,
+    });
+
+    await expect(
+      serializedErrorMiddlewareObj2(
+        {
+          config: {},
+          success: false,
+          error: { retCode: 0, retMsg: 'retMsg' },
+        },
+        nextMock,
+      ),
+    ).resolves.toMatchObject({
+      config: {},
+      success: false,
+      error: {
+        _isSerializedError: true,
+        retCode: 0,
+        retMsg: 'retMsg',
+      },
+    });
   });
   test('serializedErrorMiddleware, success: false,_isSerializedError:true', async () => {
     const checkIsCancelMock = vi.fn();

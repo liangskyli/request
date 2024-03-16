@@ -10,7 +10,7 @@ export function getFirstPropertyValue(
   let result = [...values, isToString ? '' : undefined].find(
     (v) => typeof v !== 'undefined',
   );
-  result = `${result}`;
+  result = isToString ? `${result}` : result;
   return result;
 }
 type SerializedError<CodeKey extends string, MessageKey extends string> = {
