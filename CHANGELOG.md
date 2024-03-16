@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.0-beta.1](https://github.com/liangskyli/request/compare/v0.1.0-beta.0...v0.1.0-beta.1) (2024-03-16)
+
+
+### Bug Fixes
+
+* **request:** code value support number for serializedErrorMiddleware ([1bf88ef](https://github.com/liangskyli/request/commit/1bf88ef381a3d90bbfc8497fb1d7b644e5e7e8ef))
+
+
+
 ## 0.1.0-beta.0 (2024-03-16)
 
 
