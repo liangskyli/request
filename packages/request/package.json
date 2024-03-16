@@ -34,6 +34,9 @@
     "type": "git",
     "url": "git+https://github.com/liangskyli/request.git"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "test": "vitest run",
     "test-u": "vitest -u run",
