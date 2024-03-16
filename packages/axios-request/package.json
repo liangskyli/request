@@ -1,6 +1,6 @@
 {
   "name": "@liangskyli/axios-request",
-  "version": "0.0.1",
+  "version": "0.1.0-beta.0",
   "description": "axios request library applied to clients and nodes",
   "author": "liangsky <640634387@qq.com>",
   "homepage": "https://github.com/liangskyli/request#readme",
@@ -43,8 +43,8 @@
     "@liangskyli/request": "workspace:*"
   },
   "devDependencies": {
-    "axios-mock-adapter": "^1.22.0",
-    "axios": "^1.6.7"
+    "axios": "^1.6.7",
+    "axios-mock-adapter": "^1.22.0"
   },
   "peerDependencies": {
     "axios": ">=0.24.0"
