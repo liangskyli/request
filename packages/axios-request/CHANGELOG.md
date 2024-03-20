@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.0-beta.2](https://github.com/liangskyli/request/compare/v0.1.0-beta.1...v0.1.0-beta.2) (2024-03-20)
+
+
+### Bug Fixes
+
+* error code type fix for axios, error and response Middleware support taro statusCode and errMsg ([c774d00](https://github.com/liangskyli/request/commit/c774d00dcc91c047b1a0e180de4226cc2052d831))
+
+
+
 ## [0.1.0-beta.1](https://github.com/liangskyli/request/compare/v0.1.0-beta.0...v0.1.0-beta.1) (2024-03-16)
 
 **Note:** Version bump only for package @liangskyli/axios-request
