@@ -119,8 +119,13 @@ describe('serializedErrorMiddleware file', () => {
       getErrorResponse: (error) => error,
       serializedErrorCodeKey: 'customRetCode',
       serializedErrorMessageKey: 'customRetMsg',
-      responseCodeKey: ['responseCodeKey', 'code', 'status'],
-      responseMessageKey: ['responseMessageKey', 'message', 'statusText'],
+      responseCodeKey: ['responseCodeKey', 'code', 'status', 'statusCode'],
+      responseMessageKey: [
+        'responseMessageKey',
+        'message',
+        'statusText',
+        'errMsg',
+      ],
     });
     await expect(
       serializedErrorMiddlewareObj(

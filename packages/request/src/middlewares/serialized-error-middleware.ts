@@ -13,7 +13,10 @@ export function getFirstPropertyValue(
   result = isToString ? `${result}` : result;
   return result;
 }
-type SerializedError<CodeKey extends string, MessageKey extends string> = {
+export type SerializedError<
+  CodeKey extends string,
+  MessageKey extends string,
+> = {
   readonly _isSerializedError: boolean;
   aborted?: boolean;
   _reason: any;
@@ -27,9 +30,9 @@ export type SerializedErrorConfig<
   serializedErrorCodeKey?: CodeKey;
   /** default: retMsg */
   serializedErrorMessageKey?: MessageKey;
-  /** response code key，default: ['retCode', 'code', 'status'] */
+  /** response code key，default: ['retCode', 'code', 'status', 'statusCode'] */
   responseCodeKey?: string[];
-  /** response message key，default: ['retMsg', 'message', 'statusText']*/
+  /** response message key，default: ['retMsg', 'message', 'statusText','errMsg']*/
   responseMessageKey?: string[];
   checkIsCancel: (error: any) => boolean;
   getErrorResponse: (error: any) => Record<string, any>;
@@ -57,11 +60,17 @@ const serializedError = <
   } = option;
   const retCodeKey = rest.serializedErrorCodeKey || 'retCode';
   const retMsgKey = rest.serializedErrorMessageKey || 'retMsg';
-  const responseCodeKey = rest.responseCodeKey || ['retCode', 'code', 'status'];
+  const responseCodeKey = rest.responseCodeKey || [
+    'retCode',
+    'code',
+    'status',
+    'statusCode',
+  ];
   const responseMessageKey = rest.responseMessageKey || [
     'retMsg',
     'message',
     'statusText',
+    'errMsg',
   ];
 
   const res: SerializedError<string, string> = {
@@ -74,11 +83,18 @@ const serializedError = <
 
   const response = getErrorResponse(error);
   res[retCodeKey] = getFirstPropertyValue(response, responseCodeKey);
-  res[retMsgKey] = getFirstPropertyValue(response, responseMessageKey, true);
+  res[retMsgKey] = getFirstPropertyValue(
+    response,
+    responseMessageKey,
+    true,
+  ).trim();
 
   const msgMap: Record<string, string> = {
     ['Network Error']: '网络错误，请检查网络配置',
     ['ECONNABORTED']: '网络超时，请稍后再试',
+    // for taro
+    ['request:fail']: '网络错误，请检查网络配置',
+    ['request:fail timeout']: '网络超时，请稍后再试',
     ...messageMap,
   };
   res[retMsgKey] =

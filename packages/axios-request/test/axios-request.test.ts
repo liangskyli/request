@@ -46,7 +46,7 @@ describe('axiosRequest file', () => {
       retMsg: 'retMsg',
     });
     await expect(request({ url: '/test-err2' })).rejects.toMatchObject({
-      retCode: '404',
+      retCode: 404,
       retMsg: '未知错误，请稍后再试',
     });
     await expect(request({ url: '/test-err3' })).rejects.toMatchObject({
@@ -93,7 +93,7 @@ describe('axiosRequest file', () => {
     await expect(
       request({ url: '/test-err1', method: 'post' }),
     ).rejects.toMatchObject({
-      code: '10',
+      code: 10,
       msg: 'msg',
     });
     expect(showLoadingMock).toBeCalledTimes(2);
@@ -101,7 +101,7 @@ describe('axiosRequest file', () => {
     expect(showErrorMock).toBeCalledTimes(1);
     expect(showErrorMock.mock.lastCall).toMatchObject([
       {
-        code: '10',
+        code: 10,
         msg: 'msg',
       },
       {

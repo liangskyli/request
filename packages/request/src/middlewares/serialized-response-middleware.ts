@@ -22,16 +22,20 @@ export const serializedResponseMiddleware = (
   return async (ctx, next) => {
     if (ctx.success) {
       let { data } = ctx.response || {};
-      if (typeof data === 'string') {
+      // taro use statusCode
+      const statusCode = ctx.response?.statusCode ?? 200;
+      const isStatusCodeOk = statusCode === 200;
+
+      if (isStatusCodeOk && typeof data === 'string') {
         // string to obj, data filed
         data = { [codeKey]: code, [dataKey]: data };
       }
       const retCode = data?.[codeKey];
-      if (retCode === code) {
+      if (isStatusCodeOk && retCode === code) {
         ctx.response = data;
       } else {
         ctx.success = false;
-        ctx.error = data ?? ctx.response;
+        ctx.error = ctx.response;
       }
     }
     await next();

@@ -5,7 +5,7 @@
 - 支持多端请求库的二次封装
   - http client
   - nodes
-  - 小程序
+  - taro小程序
 - 请求库的二次封装示例可看[@liangskyli/axios-request](https://github.com/liangskyli/request/packages/axios-request/README.md)
 
 ## 安装:
@@ -129,22 +129,25 @@ createRequestObj.middlewares.response.use(中间件函数);
 
 - SerializedErrorConfig 属性
 
-| 属性                        | 说明              | 类型                                    | 默认值                                   |
-|---------------------------|-----------------|---------------------------------------|---------------------------------------|
-| serializedErrorCodeKey    | 序列化错误code key名称 | `string`                              | `retCode`                             |
-| serializedErrorMessageKey | 序列化错误信息 key名称   | `string`                              | `retMsg`                              |
-| responseCodeKey           | 接口响应code码 key名称 | `string[]`                            | `['retCode', 'code', 'status']`       |
-| responseMessageKey        | 接口响应错误信息 key名称  | `string[]`                            | `['retMsg', 'message', 'statusText']` |
-| checkIsCancel             | 接口请求是否被取消       | `(error: any) => boolean`             |                                       |
-| getErrorResponse          | 接口请求错误数据处理      | `(error: any) => Record<string, any>` |                                       |
-| messageMap                | 接口错误提示信息映射表     | `Record<string, string>`              | `undefined`                           |
-| defaultReturnMessageInfo  | 默认错误提示信息        | `string`                              | `未知错误，请稍后再试`                          |
+| 属性                        | 说明              | 类型                                    | 默认值                                            |
+|---------------------------|-----------------|---------------------------------------|------------------------------------------------|
+| serializedErrorCodeKey    | 序列化错误code key名称 | `string`                              | `retCode`                                      |
+| serializedErrorMessageKey | 序列化错误信息 key名称   | `string`                              | `retMsg`                                       |
+| responseCodeKey           | 接口响应code码 key名称 | `string[]`                            | `['retCode', 'code', 'status', 'statusCode']`  |
+| responseMessageKey        | 接口响应错误信息 key名称  | `string[]`                            | `['retMsg', 'message', 'statusText','errMsg']` |
+| checkIsCancel             | 接口请求是否被取消       | `(error: any) => boolean`             |                                                |
+| getErrorResponse          | 接口请求错误数据处理      | `(error: any) => Record<string, any>` |                                                |
+| messageMap                | 接口错误提示信息映射表     | `Record<string, string>`              | `undefined`                                    |
+| defaultReturnMessageInfo  | 默认错误提示信息        | `string`                              | `未知错误，请稍后再试`                                   |
 
 - messageMap 默认映射表规则，可以配置messageMap覆盖默认映射规则，或加额外规则
 ```
 {
   ['Network Error']: '网络错误，请检查网络配置',
   ['ECONNABORTED']: '网络超时，请稍后再试',
+  // for taro
+  ['request:fail']: '网络错误，请检查网络配置',
+  ['request:fail timeout']: '网络超时，请稍后再试',
   ...messageMap,
 }
 ```

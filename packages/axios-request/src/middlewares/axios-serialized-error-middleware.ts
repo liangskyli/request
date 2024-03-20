@@ -22,7 +22,7 @@ export function axiosSerializedErrorMiddleware<
       return axios.isCancel(error);
     },
     getErrorResponse(error) {
-      return axios.isAxiosError(error) ? error.response || error : error;
+      return axios.isAxiosError(error) ? error.response || error : error.data;
     },
   });
 }
