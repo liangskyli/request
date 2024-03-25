@@ -26,6 +26,10 @@ export function taroSerializedErrorMiddleware<
       if (error?.statusCode !== 404 && error?.data) {
         return error.data;
       }
+      if (error?.statusCode === 404) {
+        // taro errMsg rewrite 404
+        error.errMsg = '404';
+      }
       return error;
     },
   });
