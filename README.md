@@ -32,4 +32,4 @@
 - [具体见文档](./packages/taro-request/README.md)
 
 ## 其他请求库的支持
-- 可以参考@liangskyli/axios-request或@liangskyli/taro-request，使用@liangskyli/request封装适合自己的个性化请求库
+- 可以参考@liangskyli/axios-request或@liangskyli/taro-request代码的实现逻辑，使用@liangskyli/request封装适合自己的个性化请求库
