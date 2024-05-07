@@ -20,7 +20,7 @@ export type IRequestConfig = BaseTaroRequestConfig &
   LoadingOption &
   ShowErrorOption;
 type ITaroRequestOpts = {
-  initConfig?: IRequestConfig;
+  initConfig?: Partial<IRequestConfig>;
   loadingMiddlewareConfig?: LoadingConfig;
   /** loadingMiddleware priority, default: -100 */
   loadingMiddlewarePriority?: Required<IPriority>['priority'];
