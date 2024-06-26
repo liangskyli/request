@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.1](https://github.com/liangskyli/request/compare/v0.1.0...v0.1.1) (2024-06-26)
+
+
+### Bug Fixes
+
+* **taro-request:** initConfig type use Partial key ([022fc62](https://github.com/liangskyli/request/commit/022fc62f411b53f3596bf9909c9d9bd64ae6ee8a))
+
+
+
 ## [0.1.0](https://github.com/liangskyli/request/compare/v0.1.0-beta.2...v0.1.0) (2024-03-29)
 
 
