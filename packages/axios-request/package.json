@@ -46,7 +46,7 @@
     "@liangskyli/request": "workspace:*"
   },
   "devDependencies": {
-    "axios": "^1.6.7",
+    "axios": "^1.7.2",
     "axios-mock-adapter": "^1.22.0"
   },
   "peerDependencies": {
