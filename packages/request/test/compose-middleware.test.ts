@@ -7,14 +7,12 @@ describe('composeMiddleware file', () => {
     vi.restoreAllMocks();
   });
   test('composeMiddleware', async () => {
-    expect(() =>
-      // @ts-ignore
-      composeMiddleware('1'),
-    ).toThrow('Middleware stack must be an array!');
-    expect(() =>
-      // @ts-ignore
-      composeMiddleware(['1']),
-    ).toThrow('Middleware must be composed of functions!');
+    expect(() => composeMiddleware('1' as any)).toThrow(
+      'Middleware stack must be an array!',
+    );
+    expect(() => composeMiddleware(['1'] as any)).toThrow(
+      'Middleware must be composed of functions!',
+    );
 
     const nextMock = vi.fn();
     const middleware1 = (): Middleware<Context> => {
@@ -36,7 +34,7 @@ describe('composeMiddleware file', () => {
     ]);
     await composeMiddlewareObj({ config: { a: 1 }, success: true }, nextMock);
     expect(nextMock).toBeCalledTimes(1);
-    expect(nextMock.mock.lastCall[0]).toEqual({
+    expect(nextMock.mock.lastCall?.[0]).toEqual({
       config: { a: 1 },
       success: true,
     });
@@ -68,11 +66,7 @@ describe('composeMiddleware file', () => {
     ]);
 
     await expect(
-      composeMiddlewareObj(
-        { config: { a: 1 }, success: true },
-        // @ts-ignore
-        'next',
-      ),
+      composeMiddlewareObj({ config: { a: 1 }, success: true }, 'next' as any),
     ).rejects.toThrow('fn is not a function');
   });
 });
