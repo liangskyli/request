@@ -49,7 +49,7 @@
     "@tarojs/taro": "^3.6.35"
   },
   "peerDependencies": {
-    "@tarojs/taro": "^3.0.0"
+    "@tarojs/taro": ">=3.0.0"
   },
   "engines": {
     "node": ">=16.8.0"
