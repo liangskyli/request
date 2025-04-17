@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.0](https://github.com/liangskyli/request/compare/v0.1.1...v0.2.0) (2025-04-17)
+
+
+### Features
+
+* **taro-request:** modify support @tarojs/taro@4 ([da1ea86](https://github.com/liangskyli/request/commit/da1ea86ff62a31d7529c89bbd624258b17ee1f2b))
+
+
+
 ## [0.1.1](https://github.com/liangskyli/request/compare/v0.1.0...v0.1.1) (2024-06-26)
 
 

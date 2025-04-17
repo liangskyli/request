@@ -1,6 +1,6 @@
 {
   "name": "@liangskyli/axios-request",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "axios request library applied to clients and nodes",
   "author": "liangsky <640634387@qq.com>",
   "homepage": "https://github.com/liangskyli/request#readme",
