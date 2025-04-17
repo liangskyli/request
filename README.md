@@ -1,35 +1,131 @@
-# 支持多环境request请求库工具，总有一种方式适合你。
+# Request Library for Multiple Environments / 多环境请求库工具
 
-<p>
+<p align="center">
   <a href="https://github.com/liangskyli/request/releases">
-    <img alt="preview badge" src="https://img.shields.io/github/v/release/liangskyli/request">
+    <img alt="GitHub Release" src="https://img.shields.io/github/v/release/liangskyli/request">
   </a>
   <a href="https://www.npmjs.com/package/@liangskyli/request">
-   <img alt="preview badge" src="https://img.shields.io/npm/v/@liangskyli/request?label=%40liangskyli%2Frequest">
+    <img alt="npm version" src="https://img.shields.io/npm/v/@liangskyli/request?label=%40liangskyli%2Frequest">
   </a>
   <a href="https://www.npmjs.com/package/@liangskyli/axios-request">
-   <img alt="preview badge" src="https://img.shields.io/npm/v/@liangskyli/axios-request?label=%40liangskyli%2Faxios-request">
+    <img alt="npm version" src="https://img.shields.io/npm/v/@liangskyli/axios-request?label=%40liangskyli%2Faxios-request">
   </a>
   <a href="https://www.npmjs.com/package/@liangskyli/taro-request">
-   <img alt="preview badge" src="https://img.shields.io/npm/v/@liangskyli/taro-request?label=%40liangskyli%2Ftaro-request">
+    <img alt="npm version" src="https://img.shields.io/npm/v/@liangskyli/taro-request?label=%40liangskyli%2Ftaro-request">
+  </a>
+  <a href="https://github.com/liangskyli/request/blob/main/LICENSE">
+    <img alt="License" src="https://img.shields.io/npm/l/@liangskyli/request">
   </a>
 </p>
 
+> A flexible request library that supports multiple environments, with middleware capabilities.
+>
+> 一个支持多环境的灵活请求库，具备中间件能力。
 
-## 抽象的通用请求库(@liangskyli/request)
-- 支持多端请求库的二次封装
-  - 支持中间件插件
-  - 需要自行集成第三方请求库使用
-  - 可自行封装个性化请求库
-  - [具体见文档](./packages/request/README.md)
+English | [简体中文](#简体中文)
 
-## 支持中间件配置的axios请求库(@liangskyli/axios-request)
-- 基于@liangskyli/request 对axios请求库二次封装
-- [具体见文档](./packages/axios-request/README.md)
+## Features
 
-## 支持中间件配置的taro请求库(@liangskyli/taro-request)
-- 基于@liangskyli/request 对taro请求库二次封装
-- [具体见文档](./packages/taro-request/README.md)
+- 🚀 Multiple environment support (Browser, Node.js, Mini Programs)
+- 🔌 Powerful middleware system
+- 🛠 Highly customizable
+- 📦 Multiple packages for different needs
 
-## 其他请求库的支持
-- 可以参考@liangskyli/axios-request或@liangskyli/taro-request代码的实现逻辑，使用@liangskyli/request封装适合自己的个性化请求库
+## Packages
+
+| Package | Description | Version |
+|---------|-------------|---------|
+| [@liangskyli/request](./packages/request/) | Core request library with middleware support | [![npm](https://img.shields.io/npm/v/@liangskyli/request)](https://www.npmjs.com/package/@liangskyli/request) |
+| [@liangskyli/axios-request](./packages/axios-request/) | Axios-based request library | [![npm](https://img.shields.io/npm/v/@liangskyli/axios-request)](https://www.npmjs.com/package/@liangskyli/axios-request) |
+| [@liangskyli/taro-request](./packages/taro-request/) | Taro-based request library for mini programs | [![npm](https://img.shields.io/npm/v/@liangskyli/taro-request)](https://www.npmjs.com/package/@liangskyli/taro-request) |
+
+## Quick Start
+
+Choose the package that best fits your needs:
+
+### Core Library
+
+```bash
+pnpm add @liangskyli/request
+```
+
+### Axios Integration
+
+```bash
+pnpm add @liangskyli/axios-request axios
+```
+
+### Taro Integration
+
+```bash
+pnpm add @liangskyli/taro-request @tarojs/taro
+```
+
+## Documentation
+
+- [Core Library Documentation](./packages/request/README.md)
+- [Axios Integration Documentation](./packages/axios-request/README.md)
+- [Taro Integration Documentation](./packages/taro-request/README.md)
+
+## Custom Integration
+
+You can create your own request library integration by following our examples:
+- Reference [@liangskyli/axios-request](./packages/axios-request/) for HTTP clients
+- Reference [@liangskyli/taro-request](./packages/taro-request/) for mini programs
+
+---
+
+# 简体中文
+
+## 特性
+
+- 🚀 支持多环境（浏览器、Node.js、小程序）
+- 🔌 强大的中间件系统
+- 🛠 高度可定制
+- 📦 多个包满足不同需求
+
+## 包列表
+
+| 包名 | 描述 | 版本 |
+|-----|------|-----|
+| [@liangskyli/request](./packages/request/) | 核心请求库，支持中间件 | [![npm](https://img.shields.io/npm/v/@liangskyli/request)](https://www.npmjs.com/package/@liangskyli/request) |
+| [@liangskyli/axios-request](./packages/axios-request/) | 基于 Axios 的请求库 | [![npm](https://img.shields.io/npm/v/@liangskyli/axios-request)](https://www.npmjs.com/package/@liangskyli/axios-request) |
+| [@liangskyli/taro-request](./packages/taro-request/) | 基于 Taro 的小程序请求库 | [![npm](https://img.shields.io/npm/v/@liangskyli/taro-request)](https://www.npmjs.com/package/@liangskyli/taro-request) |
+
+## 快速开始
+
+选择最适合你需求的包：
+
+### 核心库
+
+```bash
+pnpm add @liangskyli/request
+```
+
+### Axios 集成
+
+```bash
+pnpm add @liangskyli/axios-request axios
+```
+
+### Taro 集成
+
+```bash
+pnpm add @liangskyli/taro-request @tarojs/taro
+```
+
+## 文档
+
+- [核心库文档](./packages/request/README.md)
+- [Axios 集成文档](./packages/axios-request/README.md)
+- [Taro 集成文档](./packages/taro-request/README.md)
+
+## 自定义集成
+
+你可以参考我们的示例创建自己的请求库集成：
+- 参考 [@liangskyli/axios-request](./packages/axios-request/) 用于 HTTP 客户端
+- 参考 [@liangskyli/taro-request](./packages/taro-request/) 用于小程序
+
+## License
+
+[MIT](./LICENSE)
