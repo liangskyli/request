@@ -1,6 +1,7 @@
 import type {
   LoadingConfig,
   LoadingOption,
+  SerializedError,
   SerializedResponseConfig,
   ShowErrorConfig,
   ShowErrorOption,
@@ -16,30 +17,56 @@ import { taroSerializedErrorMiddleware } from './middlewares';
 import { taroCreateRequest } from './taro-create-request';
 
 type BaseTaroRequestConfig = Taro.request.Option;
-export type IRequestConfig = BaseTaroRequestConfig &
+export type IRequestConfig<
+  T extends Record<string, any> = Record<string, any>,
+  CodeKey extends keyof T = string,
+  MessageKey extends keyof T = string,
+> = BaseTaroRequestConfig &
   LoadingOption &
-  ShowErrorOption;
-type ITaroRequestOpts = {
-  initConfig?: Partial<IRequestConfig>;
+  ShowErrorOption<
+    BaseTaroRequestConfig & LoadingOption & ShowErrorOption,
+    T,
+    SerializedError<Extract<CodeKey, string>, Extract<MessageKey, string>>
+  >;
+type ITaroRequestOpts<
+  T extends Record<string, any> = Record<string, any>,
+  CodeKey extends keyof T = string,
+  MessageKey extends keyof T = string,
+  DataKey extends keyof T = string,
+> = {
+  initConfig?: Partial<IRequestConfig<T, CodeKey, MessageKey>>;
   loadingMiddlewareConfig?: LoadingConfig;
   /** loadingMiddleware priority, default: -100 */
   loadingMiddlewarePriority?: Required<IPriority>['priority'];
-  serializedResponseMiddlewareConfig?: SerializedResponseConfig;
+  serializedResponseMiddlewareConfig?: SerializedResponseConfig<
+    Extract<CodeKey, string>,
+    Extract<DataKey, string>
+  >;
   /** serializedResponseMiddleware priority, default: -100 */
   serializedResponseMiddlewarePriority?: Required<IPriority>['priority'];
   taroSerializedErrorMiddlewareConfig?: Parameters<
-    typeof taroSerializedErrorMiddleware
+    typeof taroSerializedErrorMiddleware<
+      Extract<CodeKey, string>,
+      Extract<MessageKey, string>
+    >
   >[0];
   /** taroSerializedErrorMiddleware priority, default: 100 */
   taroSerializedErrorMiddlewarePriority?: Required<IPriority>['priority'];
-  ShowErrorMiddlewareConfig: ShowErrorConfig;
+  ShowErrorMiddlewareConfig: ShowErrorConfig<
+    IRequestConfig,
+    T,
+    SerializedError<Extract<CodeKey, string>, Extract<MessageKey, string>>
+  >;
   /** showErrorMiddleware priority, default: -99 */
   showErrorMiddlewarePriority?: Required<IPriority>['priority'];
 };
 export const taroRequest = <
   T extends Record<string, any> = Record<string, any>,
+  CodeKey extends keyof T = string,
+  MessageKey extends keyof T = string,
+  DataKey extends keyof T = string,
 >(
-  opts: ITaroRequestOpts,
+  opts: ITaroRequestOpts<T, CodeKey, MessageKey, DataKey>,
 ) => {
   const {
     initConfig,
@@ -52,7 +79,7 @@ export const taroRequest = <
     taroSerializedErrorMiddlewarePriority,
     serializedResponseMiddlewarePriority,
   } = opts;
-  const request = taroCreateRequest<IRequestConfig, T>(initConfig);
+  const request = taroCreateRequest<IRequestConfig<T>, T>(initConfig);
 
   // request middlewares
   request.middlewares.request.use(loadingMiddleware(loadingMiddlewareConfig), {
