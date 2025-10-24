@@ -1,6 +1,7 @@
 import type {
   LoadingConfig,
   LoadingOption,
+  SerializedError,
   SerializedResponseConfig,
   ShowErrorConfig,
   ShowErrorOption,
@@ -15,30 +16,57 @@ import { axiosCreateRequest } from './axios-create-request';
 import { axiosSerializedErrorMiddleware } from './middlewares';
 
 type BaseAxiosRequestConfig = Parameters<typeof axiosCreateRequest>[0];
-export type IRequestConfig = BaseAxiosRequestConfig &
+
+export type IRequestConfig<
+  T extends Record<string, any> = Record<string, any>,
+  CodeKey extends keyof T = string,
+  MessageKey extends keyof T = string,
+> = BaseAxiosRequestConfig &
   LoadingOption &
-  ShowErrorOption;
-type IAxiosRequestOpts = {
-  initConfig?: IRequestConfig;
+  ShowErrorOption<
+    BaseAxiosRequestConfig & LoadingOption & ShowErrorOption,
+    T,
+    SerializedError<Extract<CodeKey, string>, Extract<MessageKey, string>>
+  >;
+type IAxiosRequestOpts<
+  T extends Record<string, any> = Record<string, any>,
+  CodeKey extends keyof T = string,
+  MessageKey extends keyof T = string,
+  DataKey extends keyof T = string,
+> = {
+  initConfig?: IRequestConfig<T, CodeKey, MessageKey>;
   loadingMiddlewareConfig?: LoadingConfig;
   /** loadingMiddleware priority, default: -100 */
   loadingMiddlewarePriority?: Required<IPriority>['priority'];
-  serializedResponseMiddlewareConfig?: SerializedResponseConfig;
+  serializedResponseMiddlewareConfig?: SerializedResponseConfig<
+    Extract<CodeKey, string>,
+    Extract<DataKey, string>
+  >;
   /** serializedResponseMiddleware priority, default: -100 */
   serializedResponseMiddlewarePriority?: Required<IPriority>['priority'];
   axiosSerializedErrorMiddlewareConfig?: Parameters<
-    typeof axiosSerializedErrorMiddleware
+    typeof axiosSerializedErrorMiddleware<
+      Extract<CodeKey, string>,
+      Extract<MessageKey, string>
+    >
   >[0];
   /** axiosSerializedErrorMiddleware priority, default: 100 */
   axiosSerializedErrorMiddlewarePriority?: Required<IPriority>['priority'];
-  ShowErrorMiddlewareConfig: ShowErrorConfig;
+  ShowErrorMiddlewareConfig: ShowErrorConfig<
+    IRequestConfig,
+    T,
+    SerializedError<Extract<CodeKey, string>, Extract<MessageKey, string>>
+  >;
   /** showErrorMiddleware priority, default: -99 */
   showErrorMiddlewarePriority?: Required<IPriority>['priority'];
 };
 export const axiosRequest = <
   T extends Record<string, any> = Record<string, any>,
+  CodeKey extends keyof T = string,
+  MessageKey extends keyof T = string,
+  DataKey extends keyof T = string,
 >(
-  opts: IAxiosRequestOpts,
+  opts: IAxiosRequestOpts<T, CodeKey, MessageKey, DataKey>,
 ) => {
   const {
     initConfig,
@@ -51,7 +79,7 @@ export const axiosRequest = <
     axiosSerializedErrorMiddlewarePriority,
     serializedResponseMiddlewarePriority,
   } = opts;
-  const request = axiosCreateRequest<IRequestConfig, T>(initConfig);
+  const request = axiosCreateRequest<IRequestConfig<T>, T>(initConfig);
 
   // request middlewares
   request.middlewares.request.use(loadingMiddleware(loadingMiddlewareConfig), {

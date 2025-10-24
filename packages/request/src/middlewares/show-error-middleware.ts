@@ -1,20 +1,20 @@
 import type { Middleware } from '../compose-middleware';
 import type { Context } from '../context';
 
-export type ShowErrorConfig = {
+export type ShowErrorConfig<C = any, R = any, E = any> = {
   /** 是否启动全局showError，默认开启 */
   enable?: boolean;
   /** 发生错误时执行，`return false`可阻止后续的showError函数执行 */
-  handleError?: (err: any, ctx: Context) => void | false;
+  handleError?: (err: E, ctx: Context<C, R>) => void | false;
   /** cancel时不会触发 */
-  showError: (err: any, ctx: Context) => void;
+  showError: (err: E, ctx: Context<C, R>) => void;
 };
-export type ShowErrorOption = {
+export type ShowErrorOption<C = any, R = any, E = any> = {
   customOptions?: {
     /** is show error enabled，default: ShowErrorConfig.enable */
     showErrorEnabled?: boolean;
     /** 可替换全局showError,default: ShowErrorConfig.showError */
-    showError?: (err: any, ctx: Context) => void;
+    showError?: (err: E, ctx: Context<C, R>) => void;
   };
 };
 export function showErrorMiddleware(
@@ -27,13 +27,13 @@ export function showErrorMiddleware(
         showErrorEnabled: isShowError = enable,
         showError: requestShowError,
       } = {},
-    } = ctx.config as ShowErrorOption;
+    } = ctx.config;
     function runError(err: any, ctx: Context) {
       const bool = handleError?.(err, ctx);
       if (bool !== false) {
         if (isShowError) {
-          // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-          requestShowError ? requestShowError(err, ctx) : showError(err, ctx);
+          const errorHandler = requestShowError ? requestShowError : showError;
+          errorHandler(err, ctx);
         }
       }
     }

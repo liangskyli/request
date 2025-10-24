@@ -1,9 +1,12 @@
 import type { Middleware } from '../compose-middleware';
 import type { Context } from '../context';
 
-export type SerializedResponseConfig = {
+export type SerializedResponseConfig<
+  CodeKey extends string = string,
+  DataKey extends string = string,
+> = {
   /** default: retCode */
-  serializedResponseCodeKey?: string;
+  serializedResponseCodeKey?: CodeKey;
   /** serialization response success code value, default: '0' */
   serializedResponseSuccessCode?: string | number;
   /**
@@ -11,7 +14,7 @@ export type SerializedResponseConfig = {
    * serialization response data key
    * default: data
    * */
-  serializedResponseDataKey?: string;
+  serializedResponseDataKey?: DataKey;
 };
 export const serializedResponseMiddleware = (
   option: SerializedResponseConfig = {},

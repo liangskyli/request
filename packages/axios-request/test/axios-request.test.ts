@@ -57,7 +57,8 @@ describe('axiosRequest file', () => {
     const showLoadingMock = vi.fn();
     const hideLoadingMock = vi.fn();
     const showErrorMock = vi.fn();
-    const request = axiosRequest({
+    type IJsonData = { code: string; msg: string; data: any };
+    const request = axiosRequest<IJsonData, 'code', 'msg', 'data'>({
       initConfig: { baseURL: '/v1' },
       loadingMiddlewareConfig: {
         showLoading: showLoadingMock,
@@ -65,6 +66,7 @@ describe('axiosRequest file', () => {
       },
       serializedResponseMiddlewareConfig: {
         serializedResponseCodeKey: 'code',
+        serializedResponseDataKey: 'data',
         serializedResponseSuccessCode: 0,
       },
       axiosSerializedErrorMiddlewareConfig: {
