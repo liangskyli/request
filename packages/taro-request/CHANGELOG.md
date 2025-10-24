@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.1-beta.0](https://github.com/liangskyli/request/compare/v0.2.0...v0.2.1-beta.0) (2025-10-24)
+
+
+### Features
+
+* **taro-request:** taroRequest typescript type enhance ([232fd1c](https://github.com/liangskyli/request/commit/232fd1cd991651f6af99cb7afc0c7fdf0525aec4))
+
+
+
 ## [0.2.0](https://github.com/liangskyli/request/compare/v0.1.1...v0.2.0) (2025-04-17)
 
 
