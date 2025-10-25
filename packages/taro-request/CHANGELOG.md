@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.1-beta.1](https://github.com/liangskyli/request/compare/v0.2.1-beta.0...v0.2.1-beta.1) (2025-10-25)
+
+
+### Features
+
+* all request CodeKeyType type enhance ([b5756fd](https://github.com/liangskyli/request/commit/b5756fdea072128d016268267235f41cd3670f53))
+
+
+
 ## [0.2.1-beta.0](https://github.com/liangskyli/request/compare/v0.2.0...v0.2.1-beta.0) (2025-10-24)
 
 
