@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.1](https://github.com/liangskyli/request/compare/v0.2.1-beta.1...v0.2.1) (2025-10-25)
+
+
+### Features
+
+* request.middlewares type recognition correction, and other type enhance ([4cea09f](https://github.com/liangskyli/request/commit/4cea09fb5839564db9742a01297465b1c43eb53c))
+
+
+
 ## [0.2.1-beta.1](https://github.com/liangskyli/request/compare/v0.2.1-beta.0...v0.2.1-beta.1) (2025-10-25)
 
 
