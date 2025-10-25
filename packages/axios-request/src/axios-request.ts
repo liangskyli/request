@@ -21,18 +21,24 @@ export type IRequestConfig<
   T extends Record<string, any> = Record<string, any>,
   CodeKey extends keyof T = string,
   MessageKey extends keyof T = string,
+  CodeKeyType extends string | number = string,
 > = BaseAxiosRequestConfig &
   LoadingOption &
   ShowErrorOption<
     BaseAxiosRequestConfig & LoadingOption & ShowErrorOption,
     T,
-    SerializedError<Extract<CodeKey, string>, Extract<MessageKey, string>>
+    SerializedError<
+      Extract<CodeKey, string>,
+      Extract<MessageKey, string>,
+      CodeKeyType
+    >
   >;
 type IAxiosRequestOpts<
   T extends Record<string, any> = Record<string, any>,
   CodeKey extends keyof T = string,
   MessageKey extends keyof T = string,
   DataKey extends keyof T = string,
+  CodeKeyType extends string | number = string,
 > = {
   initConfig?: IRequestConfig<T, CodeKey, MessageKey>;
   loadingMiddlewareConfig?: LoadingConfig;
@@ -40,7 +46,8 @@ type IAxiosRequestOpts<
   loadingMiddlewarePriority?: Required<IPriority>['priority'];
   serializedResponseMiddlewareConfig?: SerializedResponseConfig<
     Extract<CodeKey, string>,
-    Extract<DataKey, string>
+    Extract<DataKey, string>,
+    Extract<CodeKeyType, string | number>
   >;
   /** serializedResponseMiddleware priority, default: -100 */
   serializedResponseMiddlewarePriority?: Required<IPriority>['priority'];
@@ -55,7 +62,11 @@ type IAxiosRequestOpts<
   ShowErrorMiddlewareConfig: ShowErrorConfig<
     IRequestConfig,
     T,
-    SerializedError<Extract<CodeKey, string>, Extract<MessageKey, string>>
+    SerializedError<
+      Extract<CodeKey, string>,
+      Extract<MessageKey, string>,
+      CodeKeyType
+    >
   >;
   /** showErrorMiddleware priority, default: -99 */
   showErrorMiddlewarePriority?: Required<IPriority>['priority'];
@@ -65,8 +76,9 @@ export const axiosRequest = <
   CodeKey extends keyof T = string,
   MessageKey extends keyof T = string,
   DataKey extends keyof T = string,
+  CodeKeyType extends string | number = string,
 >(
-  opts: IAxiosRequestOpts<T, CodeKey, MessageKey, DataKey>,
+  opts: IAxiosRequestOpts<T, CodeKey, MessageKey, DataKey, CodeKeyType>,
 ) => {
   const {
     initConfig,

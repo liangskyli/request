@@ -58,7 +58,7 @@ describe('axiosRequest file', () => {
     const hideLoadingMock = vi.fn();
     const showErrorMock = vi.fn();
     type IJsonData = { code: string; msg: string; data: any };
-    const request = axiosRequest<IJsonData, 'code', 'msg', 'data'>({
+    const request = axiosRequest<IJsonData, 'code', 'msg', 'data', number>({
       initConfig: { baseURL: '/v1' },
       loadingMiddlewareConfig: {
         showLoading: showLoadingMock,

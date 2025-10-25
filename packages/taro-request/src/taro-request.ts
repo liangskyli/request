@@ -21,18 +21,24 @@ export type IRequestConfig<
   T extends Record<string, any> = Record<string, any>,
   CodeKey extends keyof T = string,
   MessageKey extends keyof T = string,
+  CodeKeyType extends string | number = string,
 > = BaseTaroRequestConfig &
   LoadingOption &
   ShowErrorOption<
     BaseTaroRequestConfig & LoadingOption & ShowErrorOption,
     T,
-    SerializedError<Extract<CodeKey, string>, Extract<MessageKey, string>>
+    SerializedError<
+      Extract<CodeKey, string>,
+      Extract<MessageKey, string>,
+      CodeKeyType
+    >
   >;
 type ITaroRequestOpts<
   T extends Record<string, any> = Record<string, any>,
   CodeKey extends keyof T = string,
   MessageKey extends keyof T = string,
   DataKey extends keyof T = string,
+  CodeKeyType extends string | number = string,
 > = {
   initConfig?: Partial<IRequestConfig<T, CodeKey, MessageKey>>;
   loadingMiddlewareConfig?: LoadingConfig;
@@ -40,7 +46,8 @@ type ITaroRequestOpts<
   loadingMiddlewarePriority?: Required<IPriority>['priority'];
   serializedResponseMiddlewareConfig?: SerializedResponseConfig<
     Extract<CodeKey, string>,
-    Extract<DataKey, string>
+    Extract<DataKey, string>,
+    Extract<CodeKeyType, string>
   >;
   /** serializedResponseMiddleware priority, default: -100 */
   serializedResponseMiddlewarePriority?: Required<IPriority>['priority'];
@@ -55,7 +62,11 @@ type ITaroRequestOpts<
   ShowErrorMiddlewareConfig: ShowErrorConfig<
     IRequestConfig,
     T,
-    SerializedError<Extract<CodeKey, string>, Extract<MessageKey, string>>
+    SerializedError<
+      Extract<CodeKey, string>,
+      Extract<MessageKey, string>,
+      CodeKeyType
+    >
   >;
   /** showErrorMiddleware priority, default: -99 */
   showErrorMiddlewarePriority?: Required<IPriority>['priority'];
@@ -65,8 +76,9 @@ export const taroRequest = <
   CodeKey extends keyof T = string,
   MessageKey extends keyof T = string,
   DataKey extends keyof T = string,
+  CodeKeyType extends string | number = string,
 >(
-  opts: ITaroRequestOpts<T, CodeKey, MessageKey, DataKey>,
+  opts: ITaroRequestOpts<T, CodeKey, MessageKey, DataKey, CodeKeyType>,
 ) => {
   const {
     initConfig,

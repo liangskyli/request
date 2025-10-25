@@ -16,11 +16,12 @@ export function getFirstPropertyValue(
 export type SerializedError<
   CodeKey extends string,
   MessageKey extends string,
+  CodeKeyType extends string | number,
 > = {
   readonly _isSerializedError: boolean;
   aborted?: boolean;
   _reason: any;
-} & Record<CodeKey, string | number> &
+} & Record<CodeKey, CodeKeyType> &
   Record<MessageKey, string>;
 export type SerializedErrorConfig<
   CodeKey extends string,
@@ -44,10 +45,11 @@ export type SerializedErrorConfig<
 const serializedError = <
   CodeKey extends string = 'retCode',
   MessageKey extends string = 'retMsg',
+  CodeKeyType extends string | number = string,
 >(
   error: any,
   option: SerializedErrorConfig<CodeKey, MessageKey>,
-): SerializedError<CodeKey, MessageKey> => {
+): SerializedError<CodeKey, MessageKey, CodeKeyType> => {
   if (error && error._isSerializedError === true) {
     return error;
   }
@@ -58,8 +60,8 @@ const serializedError = <
     defaultReturnMessageInfo = '未知错误，请稍后再试',
     ...rest
   } = option;
-  const retCodeKey = rest.serializedErrorCodeKey || 'retCode';
-  const retMsgKey = rest.serializedErrorMessageKey || 'retMsg';
+  const retCodeKey = rest.serializedErrorCodeKey || ('retCode' as CodeKey);
+  const retMsgKey = rest.serializedErrorMessageKey || ('retMsg' as MessageKey);
   const responseCodeKey = rest.responseCodeKey || [
     'retCode',
     'code',
@@ -73,21 +75,23 @@ const serializedError = <
     'errMsg',
   ];
 
-  const res: SerializedError<string, string> = {
+  const res = {
     _isSerializedError: true,
     [retCodeKey]: '',
     [retMsgKey]: '',
     aborted: checkIsCancel(error),
     _reason: error,
-  };
-
+  } as SerializedError<CodeKey, MessageKey, CodeKeyType>;
   const response = getErrorResponse(error);
-  res[retCodeKey] = getFirstPropertyValue(response, responseCodeKey);
+  res[retCodeKey] = getFirstPropertyValue(
+    response,
+    responseCodeKey,
+  ) as SerializedError<CodeKey, MessageKey, CodeKeyType>[CodeKey];
   res[retMsgKey] = getFirstPropertyValue(
     response,
     responseMessageKey,
     true,
-  ).trim();
+  ).trim() as SerializedError<CodeKey, MessageKey, CodeKeyType>[MessageKey];
 
   const msgMap: Record<string, string> = {
     ['Network Error']: '网络错误，请检查网络配置',
@@ -97,8 +101,12 @@ const serializedError = <
     ['request:fail timeout']: '网络超时，请稍后再试',
     ...messageMap,
   };
-  res[retMsgKey] =
-    (msgMap[res[retMsgKey]] ?? res[retMsgKey]) || defaultReturnMessageInfo;
+  res[retMsgKey] = ((msgMap[res[retMsgKey]] ?? res[retMsgKey]) ||
+    defaultReturnMessageInfo) as SerializedError<
+    CodeKey,
+    MessageKey,
+    CodeKeyType
+  >[MessageKey];
 
   return res;
 };
