@@ -19,7 +19,14 @@ pnpm add axios
 ```ts
 import { axiosCreateRequest } from '@liangskyli/axios-request';
 
-const request = axiosCreateRequest<IRequestConfig, T>(initConfig);
+type AxiosCreateRequestFn = (
+        config: IRequestConfig<T, CodeKey, MessageKey, CodeKeyType>,
+) => Promise<T>;
+const request = axiosCreateRequest<
+        AxiosCreateRequestFn,
+        IRequestConfig<T, CodeKey, MessageKey, CodeKeyType>,
+        T
+>(initConfig);
 
 // request middlewares
 request.middlewares.request.use(loadingMiddleware({}));

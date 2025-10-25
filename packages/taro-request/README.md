@@ -19,7 +19,14 @@ pnpm add @tarojs/taro
 ```ts
 import { taroCreateRequest } from '@liangskyli/taro-request';
 
-const request = taroCreateRequest<IRequestConfig, T>(initConfig);
+type TaroCreateRequestFn = (
+        config: IRequestConfig<T, CodeKey, MessageKey, CodeKeyType>,
+) => Promise<T>;
+const request = taroCreateRequest<
+        TaroCreateRequestFn,
+        IRequestConfig<T, CodeKey, MessageKey, CodeKeyType>,
+        T
+>(initConfig);
 
 // request middlewares
 request.middlewares.request.use(loadingMiddleware({}));
