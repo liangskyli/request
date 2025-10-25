@@ -1,4 +1,5 @@
 import type {
+  IPriority,
   LoadingConfig,
   LoadingOption,
   SerializedError,
@@ -11,7 +12,6 @@ import {
   serializedResponseMiddleware,
   showErrorMiddleware,
 } from '@liangskyli/request';
-import type { IPriority } from '@liangskyli/request/lib/middleware-manager';
 import { axiosCreateRequest } from './axios-create-request';
 import { axiosSerializedErrorMiddleware } from './middlewares';
 
@@ -91,7 +91,14 @@ export const axiosRequest = <
     axiosSerializedErrorMiddlewarePriority,
     serializedResponseMiddlewarePriority,
   } = opts;
-  const request = axiosCreateRequest<IRequestConfig<T>, T>(initConfig);
+  type AxiosCreateRequestFn = (
+    config: IRequestConfig<T, CodeKey, MessageKey, CodeKeyType>,
+  ) => Promise<T>;
+  const request = axiosCreateRequest<
+    AxiosCreateRequestFn,
+    IRequestConfig<T, CodeKey, MessageKey, CodeKeyType>,
+    T
+  >(initConfig);
 
   // request middlewares
   request.middlewares.request.use(loadingMiddleware(loadingMiddlewareConfig), {

@@ -1,4 +1,5 @@
 import type {
+  IPriority,
   LoadingConfig,
   LoadingOption,
   SerializedError,
@@ -11,7 +12,6 @@ import {
   serializedResponseMiddleware,
   showErrorMiddleware,
 } from '@liangskyli/request';
-import type { IPriority } from '@liangskyli/request/lib/middleware-manager';
 import type Taro from '@tarojs/taro';
 import { taroSerializedErrorMiddleware } from './middlewares';
 import { taroCreateRequest } from './taro-create-request';
@@ -91,7 +91,14 @@ export const taroRequest = <
     taroSerializedErrorMiddlewarePriority,
     serializedResponseMiddlewarePriority,
   } = opts;
-  const request = taroCreateRequest<IRequestConfig<T>, T>(initConfig);
+  type TaroCreateRequestFn = (
+    config: IRequestConfig<T, CodeKey, MessageKey, CodeKeyType>,
+  ) => Promise<T>;
+  const request = taroCreateRequest<
+    TaroCreateRequestFn,
+    IRequestConfig<T, CodeKey, MessageKey, CodeKeyType>,
+    T
+  >(initConfig);
 
   // request middlewares
   request.middlewares.request.use(loadingMiddleware(loadingMiddlewareConfig), {

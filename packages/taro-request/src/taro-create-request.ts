@@ -2,10 +2,13 @@ import type { FirstParamType, PromiseReturnType } from '@liangskyli/request';
 import { createRequest } from '@liangskyli/request';
 import Taro from '@tarojs/taro';
 
-type IF = typeof Taro.request;
+const request: (config: Taro.request.Option) => Promise<any> = (config) =>
+  Taro.request(config);
+
 export const taroCreateRequest = <
+  IF extends typeof request = typeof request,
   IC extends FirstParamType<IF> = FirstParamType<IF>,
   IR = PromiseReturnType<IF>,
 >(
   initConfig?: Partial<IC>,
-) => createRequest<IF, IC, IR>(Taro.request, initConfig);
+) => createRequest<IF, IC, IR>(request as IF, initConfig);

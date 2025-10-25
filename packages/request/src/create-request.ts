@@ -73,14 +73,14 @@ export const createRequest = <
   };
   request.request = commonRequest;
   request.middlewares = {
-    request: requestMiddlewareManager as Omit<
-      typeof requestMiddlewareManager,
-      'middlewares'
-    >,
-    response: responseMiddlewareManager as Omit<
-      typeof requestMiddlewareManager,
-      'middlewares'
-    >,
+    request: {
+      use: requestMiddlewareManager.use.bind(requestMiddlewareManager),
+      eject: requestMiddlewareManager.eject.bind(requestMiddlewareManager),
+    },
+    response: {
+      use: responseMiddlewareManager.use.bind(responseMiddlewareManager),
+      eject: responseMiddlewareManager.eject.bind(responseMiddlewareManager),
+    },
   };
   request.createApi =
     <R = IR, C extends Partial<IC> = Partial<IC>>(initConfig?: Partial<IC>) =>

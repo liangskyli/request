@@ -18,8 +18,8 @@ const baseConfig = (packageJSON) => {
     plugins: [
       del({ targets: 'lib/*' }),
       nodeResolve({ extensions }),
-      typescript(),
       commonjs(),
+      typescript(),
       json(),
     ],
   };

@@ -103,11 +103,11 @@ createRequestObj.middlewares.response.use(中间件函数);
 
 - SerializedResponseConfig 属性
 
-| 属性                            | 说明                                     | 类型       | 默认值       |
-|-------------------------------|----------------------------------------|----------|-----------|
-| serializedResponseCodeKey     | 响应数据code key名称                         | `string` | `retCode` |
-| serializedResponseSuccessCode | 成功响应数据code值                            | `string  | number`   | `'0'` |
-| serializedResponseDataKey     | 成功响应数据存放的对象key名，用于响应数据为string时，自动转对象数据 | `string` | `data`    |
+| 属性                            | 说明                                     | 类型                  | 默认值       |
+|-------------------------------|----------------------------------------|---------------------|-----------|
+| serializedResponseCodeKey     | 响应数据code key名称                         | `string`            | `retCode` |
+| serializedResponseSuccessCode | 成功响应数据code值                            | `string  \| number` | `'0'`     |
+| serializedResponseDataKey     | 成功响应数据存放的对象key名，用于响应数据为string时，自动转对象数据 | `string`            | `data`    |
 
 #### 3、序列化错误中间件
 - serializedErrorMiddleware 函数类型
@@ -169,11 +169,11 @@ createRequestObj.middlewares.response.use(中间件函数);
 
 - ShowErrorConfig 属性
 
-| 属性          | 说明                                        | 类型                                           | 默认值         |
-|-------------|-------------------------------------------|----------------------------------------------|-------------|
-| enable      | 是否全局开启showError                           | `boolean`                                    | `true`      |
-| handleError | 发生错误时执行，`return false`可阻止后续的showError函数执行 | `(err: any, ctx: Context) => void \| false;` | `undefined` |
-| showError   | 显示错误全局处理函数, cancel时不会触发                   | `(err: any, ctx: Context) => void`           |             |
+| 属性          | 说明                                        | 类型                                               | 默认值         |
+|-------------|-------------------------------------------|--------------------------------------------------|-------------|
+| enable      | 是否全局开启showError                           | `boolean`                                        | `true`      |
+| handleError | 发生错误时执行，`return false`可阻止后续的showError函数执行 | `(err: E, ctx: Context<C, R>) => void \| false;` | `undefined` |
+| showError   | 显示错误全局处理函数, cancel时不会触发                   | `(err: E, ctx: Context<C, R>) => void`           |             |
 
 
 - ShowErrorOption 属性
@@ -185,10 +185,10 @@ createRequestObj.middlewares.response.use(中间件函数);
 
 - LoadingOption.customOptions 属性
 
-| 属性               | 说明                          | 类型                                 | 默认值                      |
-|------------------|-----------------------------|------------------------------------|--------------------------|
-| showErrorEnabled | 具体接口请求是否开启                  | `boolean`                          | `继承option.enable的默认值`    |
-| showError        | 具体接口请求显示错误函数，可替换全局showError | `(err: any, ctx: Context) => void` | `继承option.showError的默认值` |
+| 属性               | 说明                          | 类型                                     | 默认值                      |
+|------------------|-----------------------------|----------------------------------------|--------------------------|
+| showErrorEnabled | 具体接口请求是否开启                  | `boolean`                              | `继承option.enable的默认值`    |
+| showError        | 具体接口请求显示错误函数，可替换全局showError | `(err: E, ctx: Context<C, R>) => void` | `继承option.showError的默认值` |
 
 
 ### composeMiddleware函数
