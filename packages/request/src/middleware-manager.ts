@@ -4,7 +4,7 @@ export type IPriority = {
   /** middlewares priority, default: 0 */
   priority?: number;
 };
-type IMiddlewares<T> = ({
+export type IMiddlewares<T> = ({
   middleware: Middleware<T>;
 } & Required<IPriority>)[];
 
