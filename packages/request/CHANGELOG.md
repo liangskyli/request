@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.2](https://github.com/liangskyli/request/compare/v0.2.1...v0.2.2) (2025-11-06)
+
+
+### Features
+
+* export IMiddlewares type, export @liangskyli/request in axios and taro request ([60dde30](https://github.com/liangskyli/request/commit/60dde309fee11cdede38631e4c3b044f252cc7d6))
+
+
+
 ## [0.2.1](https://github.com/liangskyli/request/compare/v0.2.1-beta.1...v0.2.1) (2025-10-25)
 
 
