@@ -12,15 +12,12 @@
     "mini programs request library"
   ],
   "type": "module",
-  "main": "./lib/index.cjs",
   "module": "./lib/index.js",
-  "types": "./lib/index.d.ts",
-  "typings": "./lib/index.d.ts",
   "exports": {
     ".": {
       "types": "./lib/index.d.ts",
       "import": "./lib/index.js",
-      "require": "./lib/index.cjs"
+      "default": "./lib/index.js"
     }
   },
   "files": [
@@ -41,7 +38,7 @@
     "test": "vitest run",
     "test-u": "vitest -u run",
     "coverage": "vitest run --coverage",
-    "build": "rollup --config=./rollup.config.js",
+    "build": "rolldown --config=./rolldown.config.ts && tsc --noEmit false --emitDeclarationOnly",
     "update:deps": "pnpm update --interactive --latest"
   },
   "dependencies": {
