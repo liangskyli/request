@@ -34,9 +34,18 @@ export const serializedResponseMiddleware = <
       const statusCode = ctx.response?.statusCode ?? 200;
       const isStatusCodeOk = statusCode === 200;
 
-      if (isStatusCodeOk && typeof data === 'string') {
-        // string to obj, data filed
-        data = { [codeKey]: successCode, [dataKey]: data };
+      if (isStatusCodeOk) {
+        if (typeof data === 'string') {
+          // string to obj, data filed
+          data = { [codeKey]: successCode, [dataKey]: data };
+        }
+        if (
+          data?.constructor?.name === 'ReadableStream' &&
+          typeof data?.getReader === 'function'
+        ) {
+          // ReadableStream
+          data = { [codeKey]: successCode, [dataKey]: data };
+        }
       }
       const retCode = data?.[codeKey];
       if (isStatusCodeOk && retCode === successCode) {

@@ -36,6 +36,22 @@ describe('serializedResponseMiddleware file', () => {
       config: {},
       success: false,
     });
+    // taro use statusCode error
+    await expect(
+      serializedResponseMiddlewareObj(
+        { config: {}, success: true, response: { statusCode: 1 } },
+        nextMock,
+      ),
+    ).resolves.toEqual({
+      config: {},
+      success: false,
+      error: {
+        statusCode: 1,
+      },
+      response: {
+        statusCode: 1,
+      },
+    });
   });
   test('serializedResponseMiddleware, custom config', async () => {
     const nextMock = vi.fn();
@@ -82,6 +98,26 @@ describe('serializedResponseMiddleware file', () => {
       response: {
         code: 0,
         data: 'string data',
+      },
+    });
+    // ReadableStream
+    const mockReadableStream = {
+      constructor: { name: 'ReadableStream' },
+      getReader: () => ({
+        read: () => Promise.resolve({ done: true, value: undefined }),
+      }),
+    };
+    await expect(
+      serializedResponseMiddlewareObj(
+        { config: {}, success: true, response: { data: mockReadableStream } },
+        nextMock,
+      ),
+    ).resolves.toEqual({
+      config: {},
+      success: true,
+      response: {
+        code: 0,
+        data: mockReadableStream,
       },
     });
   });
