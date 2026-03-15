@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.0-beta.0](https://github.com/liangskyli/request/compare/v0.2.2...v0.3.0-beta.0) (2026-03-15)
+
+
+### ⚠ BREAKING CHANGES
+
+* only support esm format,build form rollup to rolldown
+
+### Features
+
+* only support esm format,build form rollup to rolldown ([3720ffa](https://github.com/liangskyli/request/commit/3720ffa32fc6e80fe3e4f2f3494ea89e1690335b))
+
+
+
 ## [0.2.2](https://github.com/liangskyli/request/compare/v0.2.1...v0.2.2) (2025-11-06)
 
 
