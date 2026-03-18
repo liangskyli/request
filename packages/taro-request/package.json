@@ -43,7 +43,7 @@
     "@liangskyli/request": "workspace:*"
   },
   "devDependencies": {
-    "@tarojs/taro": "^4.1.7"
+    "@tarojs/taro": "^4.1.11"
   },
   "peerDependencies": {
     "@tarojs/taro": ">=3.0.0"
