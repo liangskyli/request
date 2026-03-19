@@ -3,18 +3,17 @@ import type {
   LoadingConfig,
   LoadingOption,
   SerializedError,
-  SerializedResponseConfig,
   SerializedResponseOption,
   ShowErrorConfig,
   ShowErrorOption,
 } from '@liangskyli/request';
-import {
-  loadingMiddleware,
-  serializedResponseMiddleware,
-  showErrorMiddleware,
-} from '@liangskyli/request';
+import { loadingMiddleware, showErrorMiddleware } from '@liangskyli/request';
 import type Taro from '@tarojs/taro';
-import { taroSerializedErrorMiddleware } from './middlewares';
+import type { TaroSerializedResponseConfig } from './middlewares';
+import {
+  taroSerializedErrorMiddleware,
+  taroSerializedResponseMiddleware,
+} from './middlewares';
 import { taroCreateRequest } from './taro-create-request';
 
 type BaseTaroRequestConfig = Taro.request.Option;
@@ -49,7 +48,7 @@ type ITaroRequestOpts<
   loadingMiddlewareConfig?: LoadingConfig;
   /** loadingMiddleware priority, default: -100 */
   loadingMiddlewarePriority?: Required<IPriority>['priority'];
-  serializedResponseMiddlewareConfig?: SerializedResponseConfig<
+  serializedResponseMiddlewareConfig?: TaroSerializedResponseConfig<
     Extract<CodeKey, string>,
     Extract<DataKey, string>,
     Extract<CodeKeyType, string>
@@ -120,7 +119,7 @@ export const taroRequest = <
 
   // response middlewares
   request.middlewares.response.use(
-    serializedResponseMiddleware(serializedResponseMiddlewareConfig),
+    taroSerializedResponseMiddleware(serializedResponseMiddlewareConfig),
     { priority: serializedResponseMiddlewarePriority ?? -100 },
   );
 

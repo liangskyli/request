@@ -36,22 +36,6 @@ describe('serializedResponseMiddleware file', () => {
       config: {},
       success: false,
     });
-    // taro use statusCode error
-    await expect(
-      serializedResponseMiddlewareObj(
-        { config: {}, success: true, response: { statusCode: 1 } },
-        nextMock,
-      ),
-    ).resolves.toEqual({
-      config: {},
-      success: false,
-      error: {
-        statusCode: 1,
-      },
-      response: {
-        statusCode: 1,
-      },
-    });
   });
   test('serializedResponseMiddleware, custom config', async () => {
     const nextMock = vi.fn();

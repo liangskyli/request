@@ -51,27 +51,22 @@ export const serializedResponseMiddleware = <
         } = {},
       } = ctx.config;
       let { data } = ctx.response || {};
-      // taro use statusCode
-      const statusCode = ctx.response?.statusCode ?? 200;
-      const isStatusCodeOk = statusCode === 200;
       let isSerializedObj = false;
-      if (isStatusCodeOk) {
-        if (typeof data === 'string') {
-          // string to obj, data filed
-          data = { [codeKey]: successCode, [dataKey]: data };
-          isSerializedObj = true;
-        }
-        if (
-          data?.constructor?.name === 'ReadableStream' &&
-          typeof data?.getReader === 'function'
-        ) {
-          // ReadableStream
-          data = { [codeKey]: successCode, [dataKey]: data };
-          isSerializedObj = true;
-        }
+      if (typeof data === 'string') {
+        // string to obj, data filed
+        data = { [codeKey]: successCode, [dataKey]: data };
+        isSerializedObj = true;
+      }
+      if (
+        data?.constructor?.name === 'ReadableStream' &&
+        typeof data?.getReader === 'function'
+      ) {
+        // ReadableStream
+        data = { [codeKey]: successCode, [dataKey]: data };
+        isSerializedObj = true;
       }
       const retCode = data?.[codeKey];
-      if (isStatusCodeOk && retCode === successCode) {
+      if (retCode === successCode) {
         ctx.response = data;
         if (!isResponseStringSerializedObj && isSerializedObj) {
           // raw response data
