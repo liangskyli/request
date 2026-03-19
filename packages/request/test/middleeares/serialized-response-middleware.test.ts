@@ -58,6 +58,7 @@ describe('serializedResponseMiddleware file', () => {
     const serializedResponseMiddlewareObj = serializedResponseMiddleware({
       serializedResponseCodeKey: 'code',
       serializedResponseSuccessCode: 0,
+      isResponseStringSerializedObj: true,
     });
     await expect(
       serializedResponseMiddlewareObj(
@@ -114,6 +115,85 @@ describe('serializedResponseMiddleware file', () => {
       ),
     ).resolves.toEqual({
       config: {},
+      success: true,
+      response: {
+        code: 0,
+        data: mockReadableStream,
+      },
+    });
+  });
+  test('serializedResponseMiddleware, custom config, Context config', async () => {
+    const nextMock = vi.fn();
+    const serializedResponseMiddlewareObj = serializedResponseMiddleware({
+      serializedResponseCodeKey: 'code',
+      serializedResponseSuccessCode: 0,
+    });
+
+    // string data
+    await expect(
+      serializedResponseMiddlewareObj(
+        {
+          config: {},
+          success: true,
+          response: { data: 'string data' },
+        },
+        nextMock,
+      ),
+    ).resolves.toEqual({
+      config: {},
+      success: true,
+      response: 'string data',
+    });
+    // string data to obj
+    await expect(
+      serializedResponseMiddlewareObj(
+        {
+          config: { customOptions: { isResponseStringSerializedObj: true } },
+          success: true,
+          response: { data: 'string data' },
+        },
+        nextMock,
+      ),
+    ).resolves.toEqual({
+      config: { customOptions: { isResponseStringSerializedObj: true } },
+      success: true,
+      response: {
+        code: 0,
+        data: 'string data',
+      },
+    });
+    // ReadableStream
+    const mockReadableStream = {
+      constructor: { name: 'ReadableStream' },
+      getReader: () => ({
+        read: () => Promise.resolve({ done: true, value: undefined }),
+      }),
+    };
+    await expect(
+      serializedResponseMiddlewareObj(
+        {
+          config: {},
+          success: true,
+          response: { data: mockReadableStream },
+        },
+        nextMock,
+      ),
+    ).resolves.toEqual({
+      config: {},
+      success: true,
+      response: mockReadableStream,
+    });
+    await expect(
+      serializedResponseMiddlewareObj(
+        {
+          config: { customOptions: { isResponseStringSerializedObj: true } },
+          success: true,
+          response: { data: mockReadableStream },
+        },
+        nextMock,
+      ),
+    ).resolves.toEqual({
+      config: { customOptions: { isResponseStringSerializedObj: true } },
       success: true,
       response: {
         code: 0,

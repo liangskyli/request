@@ -37,6 +37,17 @@ describe('axiosRequest file', () => {
           'Content-Type': 'text/html',
         },
       }),
+    ).resolves.toEqual('get string success');
+    await expect(
+      request({
+        url: '/test-string',
+        headers: {
+          'Content-Type': 'text/html',
+        },
+        customOptions: {
+          isResponseStringSerializedObj: true,
+        },
+      }),
     ).resolves.toMatchObject({
       retCode: '0',
       data: 'get string success',

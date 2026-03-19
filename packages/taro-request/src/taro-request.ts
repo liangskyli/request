@@ -4,6 +4,7 @@ import type {
   LoadingOption,
   SerializedError,
   SerializedResponseConfig,
+  SerializedResponseOption,
   ShowErrorConfig,
   ShowErrorOption,
 } from '@liangskyli/request';
@@ -24,8 +25,12 @@ export type IRequestConfig<
   CodeKeyType extends string | number = string,
 > = BaseTaroRequestConfig &
   LoadingOption &
+  SerializedResponseOption &
   ShowErrorOption<
-    BaseTaroRequestConfig & LoadingOption & ShowErrorOption,
+    BaseTaroRequestConfig &
+      LoadingOption &
+      SerializedResponseOption &
+      ShowErrorOption,
     T,
     SerializedError<
       Extract<CodeKey, string>,

@@ -11,11 +11,25 @@ export type SerializedResponseConfig<
   /** serialization response success code value, default: '0' */
   serializedResponseSuccessCode?: CodeKeyType;
   /**
-   * when response data is string, it will transform to obj with data key
    * serialization response data key
    * default: data
+   * when response data is string and isResponseStringSerializedObj is true, it will transform to obj with data key
    * */
   serializedResponseDataKey?: DataKey;
+  /**
+   * is Response string or ReadableStream serialized to obj
+   * default: false
+   * */
+  isResponseStringSerializedObj?: boolean;
+};
+export type SerializedResponseOption = {
+  customOptions?: {
+    /**
+     * is Response string or ReadableStream serialized to obj
+     * default：SerializedResponseConfig.isResponseStringSerializedObj
+     * */
+    isResponseStringSerializedObj?: boolean;
+  };
 };
 export const serializedResponseMiddleware = <
   CodeKey extends string = string,
@@ -23,21 +37,29 @@ export const serializedResponseMiddleware = <
   CodeKeyType extends string | number = string,
 >(
   option: SerializedResponseConfig<CodeKey, DataKey, CodeKeyType> = {},
-): Middleware<Context> => {
+): Middleware<Context<SerializedResponseOption>> => {
   const codeKey = option.serializedResponseCodeKey ?? 'retCode';
   const successCode = option.serializedResponseSuccessCode ?? '0';
   const dataKey = option.serializedResponseDataKey ?? 'data';
+  const isGlobResponseStringSerializedObj =
+    option.isResponseStringSerializedObj ?? false;
   return async (ctx, next) => {
     if (ctx.success) {
+      const {
+        customOptions: {
+          isResponseStringSerializedObj = isGlobResponseStringSerializedObj,
+        } = {},
+      } = ctx.config;
       let { data } = ctx.response || {};
       // taro use statusCode
       const statusCode = ctx.response?.statusCode ?? 200;
       const isStatusCodeOk = statusCode === 200;
-
+      let isSerializedObj = false;
       if (isStatusCodeOk) {
         if (typeof data === 'string') {
           // string to obj, data filed
           data = { [codeKey]: successCode, [dataKey]: data };
+          isSerializedObj = true;
         }
         if (
           data?.constructor?.name === 'ReadableStream' &&
@@ -45,11 +67,16 @@ export const serializedResponseMiddleware = <
         ) {
           // ReadableStream
           data = { [codeKey]: successCode, [dataKey]: data };
+          isSerializedObj = true;
         }
       }
       const retCode = data?.[codeKey];
       if (isStatusCodeOk && retCode === successCode) {
         ctx.response = data;
+        if (!isResponseStringSerializedObj && isSerializedObj) {
+          // raw response data
+          ctx.response = data[dataKey];
+        }
       } else {
         ctx.success = false;
         ctx.error = ctx.response;

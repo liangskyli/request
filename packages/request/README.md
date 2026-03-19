@@ -94,7 +94,7 @@ createRequestObj.middlewares.response.use(中间件函数);
 
 - serializedResponseMiddleware 函数类型
 ```ts
-(option: SerializedResponseConfig<CodeKey, DataKey, CodeKeyType>) => Middleware<Context>
+(option: SerializedResponseConfig<CodeKey, DataKey, CodeKeyType>) => Middleware<Context<SerializedResponseOption>>
 ```
 
 - serializedResponseMiddleware 函数入参属性
@@ -105,11 +105,26 @@ createRequestObj.middlewares.response.use(中间件函数);
 
 - SerializedResponseConfig 属性
 
-| 属性                            | 说明                                     | 类型                  | 默认值       |
-|-------------------------------|----------------------------------------|---------------------|-----------|
-| serializedResponseCodeKey     | 响应数据code key名称                         | `string`            | `retCode` |
-| serializedResponseSuccessCode | 成功响应数据code值                            | `string  \| number` | `'0'`     |
-| serializedResponseDataKey     | 成功响应数据存放的对象key名，用于响应数据为string时，自动转对象数据 | `string`            | `data`    |
+| 属性                            | 说明                     | 类型                  | 默认值       |
+|-------------------------------|------------------------|---------------------|-----------|
+| serializedResponseCodeKey     | 响应数据code key名称         | `string`            | `retCode` |
+| serializedResponseSuccessCode | 成功响应数据code值            | `string  \| number` | `'0'`     |
+| serializedResponseDataKey     | 成功响应数据存放的对象key名        | `string`            | `data`    |
+| isResponseStringSerializedObj | 响应数据为string时，是否自动转对象数据 | `boolean`           | `false`   |
+
+
+- SerializedResponseOption属性 属性
+  - 中间件回调函数里的参数，可以用于指定接口设置序列化响应数据中间件是否自动转对象数据(customOptions.isResponseStringSerializedObj)
+
+| 属性            | 说明         | 类型       | 默认值         |
+|---------------|------------|----------|-------------|
+| customOptions | 自定义中间件配置参数 | `object` | `undefined` |
+
+- SerializedResponseOption.customOptions 属性
+
+| 属性                            | 说明                     | 类型        | 默认值                                          |
+|-------------------------------|------------------------|-----------|----------------------------------------------|
+| isResponseStringSerializedObj | 响应数据为string时，是否自动转对象数据 | `boolean` | `继承option.isResponseStringSerializedObj的默认值` |
 
 #### 3、序列化错误中间件
 - serializedErrorMiddleware 函数类型
