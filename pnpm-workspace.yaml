@@ -3,3 +3,4 @@ packages:
 ignoredBuiltDependencies:
   - '@swc/core'
   - esbuild
+  - nx
