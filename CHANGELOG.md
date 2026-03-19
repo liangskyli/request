@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.0-beta.0](https://github.com/liangskyli/request/compare/v0.3.0...v0.4.0-beta.0) (2026-03-19)
+
+### ⚠ BREAKING CHANGES
+
+* response data is string, default not transform to obj
+
+### Features
+
+* add isResponseStringSerializedObj config in SerializedResponseConfig
+
+
 ## [0.3.0](https://github.com/liangskyli/request/compare/v0.3.0-beta.0...v0.3.0) (2026-03-18)
 
 **Note:** Version bump only for package root
