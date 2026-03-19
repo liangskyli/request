@@ -113,7 +113,7 @@ createRequestObj.middlewares.response.use(中间件函数);
 | isResponseStringSerializedObj | 响应数据为string时，是否自动转对象数据 | `boolean`           | `false`   |
 
 
-- SerializedResponseOption属性 属性
+- SerializedResponseOption 属性
   - 中间件回调函数里的参数，可以用于指定接口设置序列化响应数据中间件是否自动转对象数据(customOptions.isResponseStringSerializedObj)
 
 | 属性            | 说明         | 类型       | 默认值         |
